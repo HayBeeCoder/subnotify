@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 defineProps<{
   item: {
     emoji: string
@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <li>
+  <li class="text-lg">
     {{ item.emoji + ' ' + item.text }}
   </li>
 </template>
