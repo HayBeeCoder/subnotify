@@ -41,7 +41,14 @@ const width = {
 
 <template>
   <button
-    :class="{'hover:scale-[0.95] hover:bg-gray-100 ease-in-out transition-all duration-150 flex justify-center gap-4 items-center': true, ...color, ...width, ...size, 'font-medium': mediumText }"
+    :class="{
+      'hover:scale-[0.95] hover:bg-gray-100 ease-in-out transition-all duration-150 flex justify-center gap-4 items-center': true,
+      ...color,
+      ...width,
+      ...size,
+      'font-medium': mediumText,
+    }"
+    @click="$emit('SomeEvent')"
   >
     <slot></slot>
   </button>
