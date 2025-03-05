@@ -4,10 +4,14 @@ import PitchList from './PitchList.vue'
 </script>
 
 <template>
-  <div class="text-white px-3 min-md:px-10 flex flex-col justify-center">
+  <div class="text-white px-6 min-md:px-10 flex flex-col justify-center">
     <section class="mt-3 mb-6">
-      <h1 class="text-5xl min-md:text-7xl font-black">Never Get Caught at your lowest</h1>
-      <h3 class="py-2 pb-9 text-sm">Stay in Control of Your Subscriptions & Your Money</h3>
+      <h1>Never Get Caught at your<span class="inline-block text-2xl min-md:text-5xl">
+
+        Lowest
+      </span>
+      </h1>
+      <p class="py-2 pb-9 text-xs">Stay in Control of Your Subscriptions & Your Money</p>
       <div class="prose w-full text-sm tracking-wide text-[#36454F] py-8 text-justify px-9">
         <div class="prose-torn">
           <div class="px-8 flex flex-col justify-center h-full">
@@ -19,13 +23,13 @@ import PitchList from './PitchList.vue'
         >
           Tired of waking up to
           <span
-            class="inline-block font-black relative before:h-1 before:-bottom-1 before:bg-red-500 before:w-full before:absolute"
+            class="inline-block font-black relative before:h-[2px] before:-bottom-[3px] before:bg-red-500 before:w-full before:absolute"
           >
             "Payment Declined"
           </span>
           or finding out a subscription
           <span
-            class="inline-block font-black relative before:h-1 before:-bottom-1 before:bg-red-500 before:w-full before:absolute"
+            class="inline-block font-black relative before:h-[2px] before:-bottom-[3px] before:bg-red-500 before:w-full before:absolute"
           >
             drained your account
           </span>
@@ -40,10 +44,12 @@ import PitchList from './PitchList.vue'
     </section>
     <div class="relative mt-8">
       <p class="font-extrabold text-lg text-center">
-        <span class="wheel inline-block mr-1"> 🛞 </span> Ready to take control ???
+        <span class="wheel inline-block mr-1"> 🛞 </span> Ready to take control ??? <span class="wheel inline-block mr-1"> 🛞 </span>
       </p>
       <div class="w-full max-w-md mx-auto">
-        <TheButton variant="neutral" size="large" fillup-xaxis> Continue </TheButton>
+        <router-link to="/auth" class="min-md:hidden">
+          <TheButton variant="neutral" size="large" fillup-xaxis> Continue </TheButton>
+        </router-link>
       </div>
     </div>
   </div>
