@@ -1,37 +1,48 @@
 <script setup lang="ts">
+import TheButton from '../TheButton/TheButton.vue'
 import PitchList from './PitchList.vue'
 </script>
 
 <template>
-  <div class="text-white px-3 min-w:px-6 flex flex-col h-full justify-between ">
+  <div class="text-white px-3 min-w:px-6 flex flex-col justify-center bg-amber-400">
     <section>
-
-
-    <h1 class="text-5xl min-md:text-5xl font-black">Never Get Caught at your lowest</h1>
-    <h3 class="py-2 pb-9 text-xs">Stay in Control of Your Subscriptions & Your Money</h3>
-    <div class="prose w-full text-sm tracking-wide text-[#36454F] py-8 text-justify px-9">
-      <div class="prose-torn">
-        <div class="my-6 px-8">
-          <PitchList />
+      <h1 class="text-5xl min-md:text-5xl font-black">Never Get Caught at your lowest</h1>
+      <h3 class="py-2 pb-9 text-xs">Stay in Control of Your Subscriptions & Your Money</h3>
+      <div class="prose w-full text-sm tracking-wide text-[#36454F] py-8 text-justify px-9">
+        <div class="prose-torn">
+          <div class="px-8 flex flex-col justify-center h-full">
+            <PitchList />
+          </div>
         </div>
-      </div>
-      <p class="border-b-[1px] border-[#CC492C] border-dashed text-xs font-light pb-2">
-        Tired of waking up to <b><span class="toxic"> "Payment Declined" </span> </b> or finding out
-        a subscription <b><span class="toxic"> drained your account </span></b> when you needed it
-        most?<br />
-      </p>
-      <p class="text-xs font-medium pt-2">
-        SubNotify keeps you ahead of every renewal, saving you from unexpected charges when you’re
-        low on cash.
-      </p>
-    </div>
-  </section>
-    <div class="relative">
-      <p class="font-extrabold text-lg"> <span class="wheel">
+        <p class="border-b-[1px] border-[#CC492C] border-dashed text-xs font-light pb-2">
+          Tired of waking up to
+          <span
+            class="inline-block font-black relative before:h-1 before:-bottom-1 before:bg-red-500 before:w-full before:absolute"
+          >
+            "Payment Declined"
+          </span>
+          or finding out a subscription
+          <span
+            class="inline-block font-black relative before:h-1 before:-bottom-1 before:bg-red-500 before:w-full before:absolute"
+          >
+            drained your account
+          </span>
 
-        🛞
-      </span>
-       Ready to take control ???</p>
+          > when you needed it most?<br />
+        </p>
+        <p class="text-xs font-medium pt-2">
+          SubNotify keeps you ahead of every renewal, saving you from unexpected charges when you’re
+          low on cash.
+        </p>
+      </div>
+    </section>
+    <div class="relative mt-8">
+      <p class="font-extrabold text-lg text-center">
+        <span class="wheel inline-block mr-1"> 🛞 </span> Ready to take control ???
+      </p>
+      <div>
+        <TheButton variant="neutral" size="large" fillup-xaxis> Continue </TheButton>
+      </div>
     </div>
   </div>
 </template>

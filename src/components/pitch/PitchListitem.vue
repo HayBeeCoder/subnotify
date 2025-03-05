@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <li class="text-lg">
-    {{ item.emoji + ' ' + item.text }}
+  <li class="text-lg font-medium">
+    {{ item.emoji + '' + item.text }}
   </li>
 </template>
