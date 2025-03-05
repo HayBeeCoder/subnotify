@@ -5,7 +5,10 @@ import type { TColors, TSizes } from './types'
 const props = defineProps<{
   variant: 'primary' | 'secondary' | 'neutral'
   size: 'small' | 'medium' | 'large'
-  fillupXaxis: boolean
+  fillupXaxis?: boolean
+  iconExists?: boolean
+  mediumText?: boolean
+  lightText?: boolean
 }>()
 
 // stylings or customizations
@@ -24,7 +27,7 @@ const color = ref({
 const SIZES: TSizes = {
   small: '',
   medium: '',
-  large: 'font-bold text-lg px-10 py-4 rounded-sm  ',
+  large: 'font-bold text-lg px-6 min-md:px-10 py-4 rounded-sm  ',
 }
 
 const size = {
@@ -37,7 +40,9 @@ const width = {
 </script>
 
 <template>
-  <button :class="{ ...color, ...width, ...size, '  ': true }">
+  <button
+    :class="{'hover:scale-[0.95] hover:bg-gray-100 ease-in-out transition-all duration-150 flex justify-center gap-4 items-center': true, ...color, ...width, ...size, 'font-medium': mediumText }"
+  >
     <slot></slot>
   </button>
 </template>
