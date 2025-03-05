@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import useAuthUser from '@/composables/useAuthUser';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,8 +12,17 @@ const router = createRouter({
     },
     {
       path: '/auth',
-      name: 'login',
+      name: 'auth',
       component: () => import('../views/LoginView/LoginView.vue'),
+    },
+    {
+      path: '/dashboard',
+
+      name: 'dashboard',
+      component: () => import('../views/Dashboard/DashboardView.vue'),
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/about',
@@ -24,5 +34,17 @@ const router = createRouter({
     },
   ],
 })
+
+
+
+router.beforeEach((to) => {
+
+  // here we check it the user is logged in
+  // if they aren't and the route requries auth we redirect to the login page
+const { isLoggedIn } = useAuthUser();
+if (!isLoggedIn() && to.meta.requiresAuth) {
+  return { name: "auth" };
+}
+});
 
 export default router
