@@ -35,3 +35,6 @@ playwright-report/
 .firebaserc
 firebase.json
 hosting.*
+
+.env
+.env.*
