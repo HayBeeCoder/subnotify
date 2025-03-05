@@ -4,17 +4,19 @@ import PitchList from './PitchList.vue'
 </script>
 
 <template>
-  <div class="text-white px-3 min-w:px-6 flex flex-col justify-center bg-amber-400">
-    <section>
-      <h1 class="text-5xl min-md:text-5xl font-black">Never Get Caught at your lowest</h1>
-      <h3 class="py-2 pb-9 text-xs">Stay in Control of Your Subscriptions & Your Money</h3>
+  <div class="text-white px-3 min-md:px-10 flex flex-col justify-center">
+    <section class="mt-3 mb-6">
+      <h1 class="text-5xl min-md:text-7xl font-black">Never Get Caught at your lowest</h1>
+      <h3 class="py-2 pb-9 text-sm">Stay in Control of Your Subscriptions & Your Money</h3>
       <div class="prose w-full text-sm tracking-wide text-[#36454F] py-8 text-justify px-9">
         <div class="prose-torn">
           <div class="px-8 flex flex-col justify-center h-full">
             <PitchList />
           </div>
         </div>
-        <p class="border-b-[1px] border-[#CC492C] border-dashed text-xs font-light pb-2">
+        <p
+          class="border-b-[1px] border-[#CC492C] border-dashed text-xs min-md:text-sm font-light pb-2"
+        >
           Tired of waking up to
           <span
             class="inline-block font-black relative before:h-1 before:-bottom-1 before:bg-red-500 before:w-full before:absolute"
@@ -30,7 +32,7 @@ import PitchList from './PitchList.vue'
 
           > when you needed it most?<br />
         </p>
-        <p class="text-xs font-medium pt-2">
+        <p class="text-xs min-md:text-sm font-medium pt-2">
           SubNotify keeps you ahead of every renewal, saving you from unexpected charges when you’re
           low on cash.
         </p>
@@ -40,7 +42,7 @@ import PitchList from './PitchList.vue'
       <p class="font-extrabold text-lg text-center">
         <span class="wheel inline-block mr-1"> 🛞 </span> Ready to take control ???
       </p>
-      <div>
+      <div class="w-full max-w-md mx-auto">
         <TheButton variant="neutral" size="large" fillup-xaxis> Continue </TheButton>
       </div>
     </div>
