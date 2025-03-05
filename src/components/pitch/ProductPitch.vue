@@ -6,10 +6,8 @@ import PitchList from './PitchList.vue'
 <template>
   <div class="text-white px-6 min-md:px-10 flex flex-col justify-center">
     <section class="mt-3 mb-6">
-      <h1>Never Get Caught at your<span class="inline-block text-2xl min-md:text-5xl">
-
-        Lowest
-      </span>
+      <h1>
+        Never Get Caught at your<span class="inline-block text-2xl min-md:text-5xl"> Lowest </span>
       </h1>
       <p class="py-2 pb-9 text-xs">Stay in Control of Your Subscriptions & Your Money</p>
       <div class="prose w-full text-sm tracking-wide text-[#36454F] py-8 text-justify px-9">
@@ -43,14 +41,15 @@ import PitchList from './PitchList.vue'
       </div>
     </section>
     <div class="relative mt-8">
-      <p class="font-extrabold text-lg text-center">
-        <span class="wheel inline-block mr-1"> 🛞 </span> Ready to take control ??? <span class="wheel inline-block mr-1"> 🛞 </span>
-      </p>
       <div class="w-full max-w-md mx-auto">
         <router-link to="/auth" class="min-md:hidden">
           <TheButton variant="neutral" size="large" fillup-xaxis> Continue </TheButton>
         </router-link>
       </div>
+      <p class="font-extrabold text-lg text-center">
+        <span class="wheel inline-block mr-1"> 🛞 </span> Ready to take control ???
+        <span class="wheel inline-block mr-1"> 🛞 </span>
+      </p>
     </div>
   </div>
 </template>
