@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import TheButton from '@/components/TheButton/TheButton.vue'
-import IconGoogle from '@/assets/images/google.png'
-import IconGithub from '@/assets/images/github.png'
+import useAuthUser from '@/composables/useAuthUser'
+import { loginProviders } from './data'
+import { useRouter } from 'vue-router'
+import type { Provider } from '@supabase/supabase-js'
 
-const loginProviders = [
-  {
-    provider: 'Google',
-    icon: IconGoogle,
-  },
-  {
-    provider: 'Github',
-    icon: IconGithub,
-  },
-]
+const router = useRouter()
+const { loginWithSocialProvider } = useAuthUser()
+
+const handleLogin = async (provider: Provider) => {
+  try {
+    if (provider) {
+      await loginWithSocialProvider(provider)
+      router.push({ name: 'dashboard' })
+    }
+  } catch (error: any) {
+    alert(error.message)
+  }
+}
 </script>
 
 <template>
-  <section class="h-screen w-full min-md:w-[50vw] m-auto flex flex-col justify-center  items-center gap-5 ">
+  <section
+    class="h-screen w-full min-md:w-[50vw] m-auto flex flex-col justify-center items-center gap-5"
+  >
     <h2>Create an account</h2>
     <div class="w-4/5 max-w-md space-y-5">
       <TheButton
@@ -27,11 +34,9 @@ const loginProviders = [
         fillup-xaxis
         icon-exists
         medium-text
-        >
-        <span class="inline-block">
-
-          Connect with {{ item.provider }}
-        </span>
+        @some-event="handleLogin(item.provider.toLowerCase() as Provider)"
+      >
+        <span class="inline-block"> Connect with {{ item.provider }} </span>
         <span class="inline-block w-6 aspect-square">
           <img class="{'w-full h-full': true }" :src="item.icon" />
         </span>
