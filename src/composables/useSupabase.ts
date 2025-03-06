@@ -8,6 +8,7 @@ import useAuthUser from './useAuthUser'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
 // setup client
+
 const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
     persistSession: true,
