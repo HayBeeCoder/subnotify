@@ -12,7 +12,7 @@ export default function useAuthUser() {
       const data = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: 'http://localhost:5173/dashboard',
+          redirectTo: import.meta.env.DEV ? 'http://localhost:5173/dashboard' : "https://subnotify.netlify.app/dashboard",
         },
       })
       console.log({ data })
