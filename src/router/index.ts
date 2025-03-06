@@ -13,13 +13,13 @@ const router = createRouter({
     {
       path: '/auth',
       name: 'auth',
-      component: () => import('../views/LoginView/LoginView.vue'),
+      component: () => import('@/views/LoginView/LoginView.vue'),
     },
     {
       path: '/dashboard',
 
       name: 'dashboard',
-      component: () => import('../views/Dashboard/DashboardView.vue'),
+      component: () => import('@/views/Dashboard/DashboardView.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -35,15 +35,20 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to) => {
-  // here we check it the user is logged in
-  // if they aren't and the route requries auth we redirect to the login page
+router.beforeEach(async (to) => {
+
+  // Check if the user is logged in
   const { isLoggedIn } = useAuthUser()
-  if (!isLoggedIn() && to.meta.requiresAuth) {
+  const loggedIn = await isLoggedIn()
+
+  if (!loggedIn && to.meta.requiresAuth) {
+    // Redirect to login page if not logged in and route requires authentication
     return { name: 'auth' }
-  } else {
-    return { name: 'dashboard' }
   }
+
+  // if (to.name == 'auth' || to.name == 'home') return { name: 'dashboard' }
+  // Allow navigation to the intended route
+  return true // Continue to the target route
 })
 
 export default router

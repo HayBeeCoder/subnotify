@@ -6,10 +6,15 @@ import { useRouter } from 'vue-router'
 import type { Provider } from '@supabase/supabase-js'
 
 const router = useRouter()
+const { isLogged } = useAuthUser()
 const { loginWithSocialProvider } = useAuthUser()
 
 const handleLogin = async (provider: Provider) => {
   try {
+    if (await isLoggedIn()) {
+      router.push({ name: 'dashboard' })
+      return
+    }
     if (provider) {
       await loginWithSocialProvider(provider)
       router.push({ name: 'dashboard' })
