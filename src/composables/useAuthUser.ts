@@ -9,7 +9,6 @@ export default function useAuthUser() {
 
   const loginWithSocialProvider = async (provider: Provider) => {
     try {
-      console.log({ start: 1 })
       const data = await supabase.auth.signInWithOAuth({
         provider,
         options: {
@@ -72,8 +71,7 @@ export default function useAuthUser() {
       user.value = await getUser()
     }
 
-    console.log({ user: user.value })
-    alert('user spotted!')
+
     return true
   }
 
