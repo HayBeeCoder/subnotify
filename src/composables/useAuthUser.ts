@@ -15,9 +15,7 @@ export default function useAuthUser() {
           redirectTo: "https://subnotify.netlify.app/dashboard",
         },
       })
-      console.log({ data })
-      // return data.data.
-      alert()
+    
     } catch (error) {
       if (error) throw error
     }
