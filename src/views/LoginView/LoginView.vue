@@ -19,8 +19,8 @@ const handleLogin = async (provider: Provider) => {
       await loginWithSocialProvider(provider)
       router.push({ name: 'dashboard' })
     }
-  } catch (error: any) {
-    console.log(error.message)
+  } catch (error) {
+    console.log(error?.message)
   }
 }
 </script>
