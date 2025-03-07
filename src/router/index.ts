@@ -36,19 +36,27 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-
   // Check if the user is logged in
-  const { isLoggedIn } = useAuthUser()
-  const loggedIn = await isLoggedIn()
 
-  if (!loggedIn && to.meta.requiresAuth) {
-    // Redirect to login page if not logged in and route requires authentication
-    return { name: 'auth' }
+  if (to.meta.requiresAuth) {
+    const { isLoggedIn } = useAuthUser()
+    const loggedIn = await isLoggedIn()
+
+    if (!loggedIn) {
+      // Redirect to login page if not logged in and route requires authentication
+      const viewwport_width = window.document.documentElement.clientWidth
+
+      if (viewwport_width > 768) {
+        return { name: '/' }
+      } else {
+        return { name: 'auth' }
+      }
+    }
+  } else {
+    // if (to.name == 'auth' || to.name == 'home') return { name: 'dashboard' }
+    // Allow navigation to the intended route
+    return true // Continue to the target route
   }
-
-  // if (to.name == 'auth' || to.name == 'home') return { name: 'dashboard' }
-  // Allow navigation to the intended route
-  return true // Continue to the target route
 })
 
 export default router
