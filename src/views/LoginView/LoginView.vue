@@ -11,13 +11,16 @@ const { loginWithSocialProvider } = useAuthUser()
 
 const handleLogin = async (provider: Provider) => {
   try {
-    if (await isLoggedIn()) {
+    const loggedIn = await isLoggedIn()
+
+    if (loggedIn) {
       router.push({ name: 'dashboard' })
       return
     }
     if (provider) {
-      await loginWithSocialProvider(provider)
-      router.push({ name: 'dashboard' })
+      await loginWithSocialProvider(provider).then(() => {
+        router.push({ name: 'dashboard' })
+      })
     }
   } catch (error) {
     console.log(error?.message)
