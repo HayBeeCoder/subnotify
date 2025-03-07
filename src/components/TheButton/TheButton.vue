@@ -28,8 +28,8 @@ const color = ref({
 
 const SIZES: TSizes = {
   small: 'text-sm py-1',
-  medium: 'font-bold text-md mx-4 min-md:px-8 py-3 rounded-xs',
-  large: 'font-bold text-lg px-6 min-md:px-10 py-4 rounded-sm  ',
+  medium: 'font-bold text-md mx-4 md:px-8 py-3 rounded-xs',
+  large: 'font-bold text-lg px-6 md:px-10 py-4 rounded-sm  ',
 }
 
 const size = {

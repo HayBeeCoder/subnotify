@@ -30,7 +30,7 @@ const handleLogin = async (provider: Provider) => {
 
 <template>
   <section
-    class="h-screen w-full min-md:w-[50vw] m-auto flex flex-col justify-center items-center gap-5"
+    class="h-screen w-full md:w-[50vw] m-auto flex flex-col justify-center items-center gap-5"
   >
     <h2>Create an account</h2>
     <div class="w-4/5 max-w-md space-y-5">

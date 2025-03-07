@@ -7,12 +7,12 @@ import MovingBackground from '@/components/MovingBackground/MovingBackground.vue
 <template>
   <section class="w-screen h-screen relative flex">
     <section
-      class="min-md:w-1/2 min-md:relative bg-[#CC492C] flex justify-center absolute top-0 left-0 w-screen h-screen"
+      class="md:w-1/2 md:relative bg-[#CC492C] flex justify-center absolute top-0 left-0 w-screen h-screen"
     >
       <MovingBackground />
       <ProductPitch />
     </section>
-    <section class="hidden min-md:block h-full">
+    <section class="hidden md:block h-full">
       <LoginView />
     </section>
   </section>
