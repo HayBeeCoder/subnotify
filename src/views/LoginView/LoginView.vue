@@ -20,7 +20,7 @@ const handleLogin = async (provider: Provider) => {
       router.push({ name: 'dashboard' })
     }
   } catch (error: any) {
-    alert(error.message)
+    console.log(error.message)
   }
 }
 </script>
