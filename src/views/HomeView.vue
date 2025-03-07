@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ProductPitch from '@/components/pitch/ProductPitch.vue'
 import LoginView from './LoginView/LoginView.vue'
+import MovingBackground from '@/components/MovingBackground/MovingBackground.vue'
 </script>
 
 <template>
@@ -8,6 +9,7 @@ import LoginView from './LoginView/LoginView.vue'
     <section
       class="min-md:w-1/2 min-md:relative bg-[#CC492C] flex justify-center absolute top-0 left-0 w-screen h-screen"
     >
+      <MovingBackground />
       <ProductPitch />
     </section>
     <section class="hidden min-md:block h-full">
