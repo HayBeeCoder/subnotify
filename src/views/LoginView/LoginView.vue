@@ -19,7 +19,7 @@ const handleLogin = async (provider: Provider) => {
     }
     if (provider) {
       await loginWithSocialProvider(provider).then(() => {
-        router.push({ name: 'dashboard' })
+        // router.push({ name: 'dashboard' })
       })
     }
   } catch (error) {
