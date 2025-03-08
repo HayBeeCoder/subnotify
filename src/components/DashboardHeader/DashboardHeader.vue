@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import TextinputField from '../InputField.vue/TextinputField.vue'
 import TheButton from '../TheButton/TheButton.vue'
 import IconPlus from '../icons/IconPlus.vue'
 import IconSearch from '../icons/IconSearch.vue'
 
-// const searchquery =  ref("")
+
 </script>
 
 <template>
