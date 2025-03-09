@@ -9,24 +9,26 @@ export default function useAuthUser() {
 
   const loginWithSocialProvider = async (provider: Provider) => {
     try {
-      const data = await supabase.auth.signInWithOAuth({
+      await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: 'http://localhost:5173/dashboard',
+          redirectTo: import.meta.env.DEV
+            ? 'http://localhost:5173/dashboard'
+            : 'https://subnotify.netlify.app/dashboard',
         },
       })
-      console.log({ data })
-      // return data.data.
-      alert()
     } catch (error) {
       if (error) throw error
     }
-    return
+    return Promise.resolve()
   }
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut()
-    if (error) throw error
+    user.value = null
+    if (error) {
+      console.log(error)
+    }
   }
 
   const getUser = async () => {
@@ -68,9 +70,10 @@ export default function useAuthUser() {
         user.value = refresh_token_response.user
       }
     } else {
-      user.value = await getUser()
+      if (!user.value) {
+        user.value = await getUser()
+      }
     }
-
 
     return true
   }

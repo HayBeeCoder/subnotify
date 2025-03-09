@@ -24,31 +24,30 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-    },
   ],
 })
 
 router.beforeEach(async (to) => {
-
   // Check if the user is logged in
-  const { isLoggedIn } = useAuthUser()
-  const loggedIn = await isLoggedIn()
 
-  if (!loggedIn && to.meta.requiresAuth) {
-    // Redirect to login page if not logged in and route requires authentication
-    return { name: 'auth' }
+  if (to.meta.requiresAuth) {
+    const { user } = useAuthUser()
+
+    if (!user) {
+      // Redirect to login page if not logged in and route requires authentication
+      const viewwport_width = window.document.documentElement.clientWidth
+
+      if (viewwport_width > 768) {
+        return { name: 'home' }
+      } else {
+        return { name: 'auth' }
+      }
+    }
+  } else {
+    // if (to.name == 'auth' || to.name == 'home') return { name: 'dashboard' }
+    // Allow navigation to the intended route
+    return true // Continue to the target route
   }
-
-  // if (to.name == 'auth' || to.name == 'home') return { name: 'dashboard' }
-  // Allow navigation to the intended route
-  return true // Continue to the target route
 })
 
 export default router

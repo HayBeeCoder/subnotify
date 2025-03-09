@@ -1,24 +1,27 @@
 <script setup lang="ts">
 import TheButton from '../TheButton/TheButton.vue'
+import TheFoldener from '../TheFoldener/TheFoldener.vue'
 import PitchList from './PitchList.vue'
 </script>
 
 <template>
-  <div class="text-white px-6 min-md:px-10 flex flex-col justify-center">
+  <div class="text-white px-6 md:px-10 flex flex-col justify-center">
     <section class="mt-3 mb-6">
       <h1>
-        Never Get Caught at your<span class="inline-block text-2xl min-md:text-5xl"> Lowest </span>
+        Never Get Caught at your {{" "}}<span class="inline-block text-2xl md:text-5xl "> Lowest </span>
       </h1>
       <p class="py-2 pb-9 text-xs">Stay in Control of Your Subscriptions & Your Money</p>
-      <div class="prose w-full text-sm tracking-wide text-[#36454F] py-8 text-justify px-9">
+      <div class="prose relative  w-full text-sm tracking-wide text-[#36454F] py-8 text-justify px-9 bg-[yellow]">
+        <TheFoldener />
         <div class="prose-torn">
           <div class="px-8 flex flex-col justify-center h-full">
             <PitchList />
           </div>
         </div>
         <p
-          class="border-b-[1px] border-[#CC492C] border-dashed text-xs min-md:text-sm font-light pb-2"
+          class="border-b-[1px] border-[#CC492C] border-dashed text-xs md:text-sm font-light pb-2 relative"
         >
+
           Tired of waking up to
           <span
             class="inline-block font-black relative before:h-[2px] before:-bottom-[3px] before:bg-red-500 before:w-full before:absolute"
@@ -34,21 +37,22 @@ import PitchList from './PitchList.vue'
 
           > when you needed it most?<br />
         </p>
-        <p class="text-xs min-md:text-sm font-medium pt-2">
+        <p class="text-xs md:text-sm font-medium pt-2">
           SubNotify keeps you ahead of every renewal, saving you from unexpected charges when you’re
           low on cash.
         </p>
       </div>
     </section>
-    <div class="relative mt-8">
+    <div class="relative mt-32 md:mt-4">
       <div class="w-full max-w-md mx-auto">
-        <router-link to="/auth" class="min-md:hidden">
+        <router-link to="/auth" class="md:hidden">
           <TheButton variant="neutral" size="large" fillup-xaxis> Continue </TheButton>
         </router-link>
       </div>
       <p class="font-extrabold text-lg text-center">
-        <span class="wheel inline-block mr-1"> 🛞 </span> Ready to take control ???
-        <span class="wheel inline-block mr-1"> 🛞 </span>
+        <!-- <span class="wheel inline-block mr-1"> 🛞 </span> -->
+        Ready to take control ???
+        <!-- <span class="wheel inline-block mr-1"> 🛞 </span> -->
       </p>
     </div>
   </div>

@@ -23,9 +23,9 @@ button {
 }
 
 h1 {
-  @apply text-5xl min-md:text-7xl font-black;
+  @apply text-6xl md:text-7xl font-black;
 }
 
 h2 {
-  @apply text-xl min-md:text-3xl font-black;
+  @apply text-xl md:text-3xl font-black;
 }

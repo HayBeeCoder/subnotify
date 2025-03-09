@@ -6,28 +6,31 @@ import { useRouter } from 'vue-router'
 import type { Provider } from '@supabase/supabase-js'
 
 const router = useRouter()
-const { isLogged } = useAuthUser()
+const { isLoggedIn } = useAuthUser()
 const { loginWithSocialProvider } = useAuthUser()
 
 const handleLogin = async (provider: Provider) => {
   try {
-    if (await isLoggedIn()) {
+    const loggedIn = await isLoggedIn()
+
+    if (loggedIn) {
       router.push({ name: 'dashboard' })
       return
     }
     if (provider) {
-      await loginWithSocialProvider(provider)
-      router.push({ name: 'dashboard' })
+      await loginWithSocialProvider(provider).then(() => {
+        // router.push({ name: 'dashboard' })
+      })
     }
-  } catch (error: any) {
-    alert(error.message)
+  } catch (error) {
+    console.log(error?.message)
   }
 }
 </script>
 
 <template>
   <section
-    class="h-screen w-full min-md:w-[50vw] m-auto flex flex-col justify-center items-center gap-5"
+    class="h-screen w-full md:w-[50vw] m-auto flex flex-col justify-center items-center gap-5"
   >
     <h2>Create an account</h2>
     <div class="w-4/5 max-w-md space-y-5">
