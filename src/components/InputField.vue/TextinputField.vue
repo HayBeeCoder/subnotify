@@ -28,7 +28,7 @@ const size = {
 
 <template>
   <!-- <form class="flex justify-center my-8" v-on:submit.stop="search"> -->
-  <label v-if="label">{{ label }}</label>
+  <label v-if="label" class="text-[0.8rem]">{{ label }}</label>
   <input
     v-if="type == 'text'"
     :class="{
