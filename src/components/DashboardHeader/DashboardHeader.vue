@@ -15,7 +15,7 @@ const emit = defineEmits(['update:openModal'])
       <span class="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-[8px]">
         <IconSearch/>
       </span>
-      <TextinputField  size="medium" icon-position="left" placeholder="Search for a subscription"  />
+      <TextinputField type="text"  size="medium" icon-position="left" placeholder="Search for a subscription"  />
     </div>
     <div class="flex items-center justify-end">
       <TheButton variant="primary" size="medium" customclass=" " icon-exists @some-event="() => emit('update:openModal')">
