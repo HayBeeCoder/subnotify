@@ -6,7 +6,10 @@ const query: Ref<string> = ref('')
 const props = defineProps<{
   placeholder?: string
   size: 'small' | 'medium' | 'large'
-  iconPosition: 'left' | 'right' | 'none'
+  iconPosition?: 'left' | 'right'
+  label?: string
+  longMessage?: boolean
+  disabled?: boolean
 }>()
 
 const SIZES: TSizes = {
@@ -24,8 +27,9 @@ const size = {
 
 <template>
   <!-- <form class="flex justify-center my-8" v-on:submit.stop="search"> -->
-    <!-- <label></label> -->
+  <label v-if="label">{{ label }}</label>
   <input
+    v-if="!longMessage"
     :class="{
       'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
       ...size,
@@ -38,6 +42,21 @@ const size = {
     v-model="query"
     :placeholder="placeholder"
     @change="$emit('typeEvent', query)"
+    :disabled="disabled"
+  />
+
+  <textarea
+    v-if="longMessage"
+    :class="{
+      'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+      ...size
+    }"
+    v-model="query"
+    :placeholder="placeholder"
+    @change="$emit('typeEvent', query)"
+    :disabled="disabled"
+    rows="5"
+    cols="33"
   />
 
   <!-- </form> -->
