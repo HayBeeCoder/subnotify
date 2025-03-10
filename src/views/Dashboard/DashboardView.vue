@@ -52,10 +52,10 @@ const isModalOpen: Ref<boolean> = ref(false)
           long-message
         />
         <div class="flex gap-5">
-          <div>
+          <div class="grow-0">
             <TextinputField type="date" size="medium" label="Subscription Start Date" />
           </div>
-          <div>
+          <div class="grow-0">
             <TextinputField type="date" size="medium" label="Subscription End Date" />
           </div>
         </div>
