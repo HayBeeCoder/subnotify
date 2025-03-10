@@ -51,7 +51,7 @@ const isModalOpen: Ref<boolean> = ref(false)
           placeholder="Made this subscription for Steve"
           long-message
         />
-        <div class="flex gap-5">
+        <div class="w-full flex gap-5 justify-between">
           <div class="grow-0 shrink-0">
             <TextinputField type="date" size="medium" label="Subscription Start Date" />
           </div>
