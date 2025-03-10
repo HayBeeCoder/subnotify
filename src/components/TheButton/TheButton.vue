@@ -11,6 +11,7 @@ const props = defineProps<{
   mediumText?: boolean
   lightText?: boolean
   customclass?: string
+  disabled?: boolean
 }>()
 
 // stylings or customizations
@@ -48,7 +49,7 @@ const width = {
 <template>
   <button
     :class="{
-      'hover:scale-[0.95] hover:bg-gray-100  underline- ease-in-out transition-all duration-150 flex justify-center gap-4 items-center': true,
+      'disabled:bg-gray-400 disabled:text-gray-700 disabled:cursor-not-allowed disabled:bg- hover:scale-[0.95] hover:bg-gray-100  underline- ease-in-out transition-all duration-150 flex justify-center gap-4 items-center': true,
       ...color,
       ...width,
       ...size,
@@ -56,6 +57,7 @@ const width = {
       [customclass as string]: true,
     }"
     @click="$emit('SomeEvent')"
+    :disabled="disabled"
   >
     <slot></slot>
   </button>

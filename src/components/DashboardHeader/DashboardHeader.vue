@@ -4,6 +4,8 @@ import TheButton from '../TheButton/TheButton.vue'
 import IconPlus from '../icons/IconPlus.vue'
 import IconSearch from '../icons/IconSearch.vue'
 
+const emit = defineEmits(['update:openModal'])
+
 
 </script>
 
@@ -13,10 +15,10 @@ import IconSearch from '../icons/IconSearch.vue'
       <span class="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-[8px]">
         <IconSearch/>
       </span>
-      <TextinputField  size="medium" icon-position="left" placeholder="Search for a subscription"  />
+      <TextinputField type="text"  size="medium" icon-position="left" placeholder="Search for a subscription"  />
     </div>
     <div class="flex items-center justify-end">
-      <TheButton variant="primary" size="medium" customclass=" " icon-exists>
+      <TheButton variant="primary" size="medium" customclass=" " icon-exists @some-event="() => emit('update:openModal')">
         <!-- <span class="inline-block"> -->
           <span class="inline-block h-4 w-4">
 

@@ -23,7 +23,7 @@ const handleLogin = async (provider: Provider) => {
       })
     }
   } catch (error) {
-    console.log(error?.message)
+    console.log(error)
   }
 }
 </script>
