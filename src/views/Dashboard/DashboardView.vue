@@ -52,10 +52,10 @@ const isModalOpen: Ref<boolean> = ref(false)
           long-message
         />
         <div class="w-full flex gap-5 justify-between">
-          <div class="grow-0 inline-block">
+          <div class="grow-0 inline-block max-w-[40%]">
             <TextinputField type="date" size="medium" label="Subscription Start Date" />
           </div>
-          <div class="grow-0">
+          <div class="grow-0 max-w-[40%]">
             <TextinputField type="date" size="medium" label="Subscription End Date" />
           </div>
         </div>
