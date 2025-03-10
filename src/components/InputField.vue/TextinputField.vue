@@ -10,6 +10,7 @@ const props = defineProps<{
   label?: string
   longMessage?: boolean
   disabled?: boolean
+  type?: "text" | "date"
 }>()
 
 const SIZES: TSizes = {
@@ -29,7 +30,7 @@ const size = {
   <!-- <form class="flex justify-center my-8" v-on:submit.stop="search"> -->
   <label v-if="label">{{ label }}</label>
   <input
-    v-if="!longMessage"
+    v-if="type == 'text'"
     :class="{
       'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
       ...size,
@@ -55,9 +56,15 @@ const size = {
     :placeholder="placeholder"
     @change="$emit('typeEvent', query)"
     :disabled="disabled"
-    rows="5"
+    rows="4"
     cols="33"
   />
+  <input v-if="type == 'date'" type="date" :class="{
+     'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+     ...size
 
+  }"
+  :disabled="disabled"
+  />
   <!-- </form> -->
 </template>
