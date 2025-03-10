@@ -3,10 +3,10 @@ import DashboardHeader from '@/components/DashboardHeader/DashboardHeader.vue'
 import TextinputField from '@/components/InputField.vue/TextinputField.vue'
 import TheModal from '@/components/TheModal/TheModal.vue'
 import useAuthUser from '@/composables/useAuthUser'
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 
 const { user } = useAuthUser()
-const isModalOpen = ref(false)
+const isModalOpen: Ref<boolean> = ref(false)
 
 const newSubscription = ref({
 
@@ -23,7 +23,7 @@ const newSubscription = ref({
       "
     />
     <TheModal
-      v-if="isModalOpen"
+      :is-modal-open="isModalOpen"
       @some-event="
         () => {
           isModalOpen = false
@@ -32,8 +32,10 @@ const newSubscription = ref({
     >
     <h2 class="text-center my-4">Track new subscription</h2>
 
-    <form>
-      <!-- <TextinputField  /> -->
+    <form class="mx-5 space-y-3">
+      <TextinputField size="medium" label="Subscription Provider" placeholder="Apple"/>
+      <TextinputField size="medium" label="Subscription Type" placeholder="Apple TV+"/>
+      <TextinputField size="medium" label="Subscription Description" placeholder="Made this subscription for Steve" long-message  />
 
       <!-- <TextInputField /> -->
     </form>
