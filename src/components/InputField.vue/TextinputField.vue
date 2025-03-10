@@ -32,7 +32,7 @@ const size = {
   <input
     v-if="type == 'text'"
     :class="{
-      'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+      'disabled:opacity-40 inline-block border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
       ...size,
       ...{
         'pr-8': props.iconPosition == 'right',
