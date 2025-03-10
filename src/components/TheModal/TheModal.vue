@@ -3,7 +3,7 @@
     <div class=" w-full h-full dark" @click="$emit('someEvent')">
 
     </div>
-    <section class="bg-white h-10/12 w-full bottom-0 absolute left-0 bottom-[0px]">
+    <section class="bg-white h-[65%] w-full bottom-0 absolute left-0 bottom-[0px]">
 
       <slot>
 
