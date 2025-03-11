@@ -10,7 +10,7 @@ const props = defineProps<{
   label?: string
   longMessage?: boolean
   disabled?: boolean
-  type?: "text" | "date"
+  type?: 'text' | 'date' | 'number'
 }>()
 
 const SIZES: TSizes = {
@@ -50,7 +50,7 @@ const size = {
     v-if="longMessage"
     :class="{
       'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
-      ...size
+      ...size,
     }"
     v-model="query"
     :placeholder="placeholder"
@@ -59,12 +59,24 @@ const size = {
     rows="4"
     cols="33"
   />
-  <input v-if="type == 'date'" type="date" :class="{
-     'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
-     ...size
-
-  }"
-  :disabled="disabled"
+  <input
+    v-if="type == 'date'"
+    type="date"
+    :class="{
+      'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+      ...size,
+    }"
+    :disabled="disabled"
+  />
+  <input
+    v-if="type == 'number'"
+    type="number"
+    :class="{
+      'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+      ...size,
+    }"
+    min="1"
+    :disabled="disabled"
   />
   <!-- </form> -->
 </template>
