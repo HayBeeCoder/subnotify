@@ -6,6 +6,7 @@ defineProps<{
   selectedOption: SelectOption
   options: SelectOption[]
   id: string
+  label?: string
 }>()
 
 const emit = defineEmits(['select'])
@@ -23,6 +24,8 @@ const selectOption = (option: { label: string; value: string }) => {
 </script>
 <template>
   <div class="relative w-full max-w-sm">
+    <label v-if="label" class="text-[0.8rem]" >{{ label }}</label>
+  
     <!-- Trigger Button -->
     <button
       @click.prevent="toggleDropdown"
