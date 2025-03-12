@@ -18,7 +18,7 @@ const handleLogout = async () => {
   <header
     :class="{
       'fixed w-screen px-6 md:px-10 py-4 md:pt-6 z-10000 flex justify-between bg-transparent ': true,
-      'bg-white relative': route.name == 'dashboard',
+      'bg-white relative': route.name != 'auth' && route.name != 'home',
     }"
   >
     <RouterLink to="/">
@@ -33,7 +33,7 @@ const handleLogout = async () => {
     </RouterLink>
     <div
       :class="{
-        hidden: route.name != 'dashboard',
+        hidden: route.name == 'auth' || route.name == 'home',
       }"
     >
       <TheButton size="small" variant="link" @some-event="handleLogout()"> Logout </TheButton>
