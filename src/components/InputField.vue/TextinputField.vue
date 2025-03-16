@@ -15,7 +15,7 @@ const props = defineProps<{
 }>()
 
 const query = ref(props.value)
-const startdate = ref(props.value.split('T')[0])
+const startdate = ref(props.value?.split('T')[0])
 const duration = ref(props.value)
 
 const SIZES: TSizes = {
@@ -79,7 +79,7 @@ defineEmits(['typeEvent'])
     @change="$emit('typeEvent', startdate)"
     :name="name"
     v-model="startdate"
-    
+
     :value="startdate"
     :disabled="disabled"
   />

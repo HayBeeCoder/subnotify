@@ -26,7 +26,7 @@ const subdescription = ref('')
 const subdurationtype = ref()
 const subduration = ref('1')
 const substartDate = ref(new Date().toISOString())
-const subendDate = ref(getEndDate(substartDate.value.split('T')[0], 30))
+const subendDate = ref(getEndDate(substartDate.value?.split('T')[0], 30))
 function getEndDate(startDate: string, daysToAdd: number) {
  
   const start = new Date(startDate);
