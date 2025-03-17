@@ -3,6 +3,7 @@ import { ref, type Ref } from 'vue'
 import SelectField from '../SelectField.vue/SelectField.vue'
 import type { SelectOption } from '../types'
 import TextinputField from '../InputField.vue/TextinputField.vue'
+// import { NUM } from '@/constants'
 
 const emit = defineEmits(['set:DurationType', 'typeEventSetDuration', 'typeEventSetEndDate'])
 
@@ -14,9 +15,9 @@ defineProps<{
 }>()
 
 const durationOptions: Ref<SelectOption[]> = ref([
-  { label: 'Days', value: 'day' },
-  { label: 'Weeks', value: 'week' },
-  { label: 'Months', value: 'month' },
+  { label: 'Days', value: "days" },
+  { label: 'Weeks', value: 'weeks' },
+  { label: 'Months', value: 'months' },
 ])
 
 const selectedDurationOption: Ref<SelectOption> = ref(durationOptions.value[0])
