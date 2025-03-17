@@ -12,6 +12,7 @@ const props = defineProps<{
   lightText?: boolean
   customclass?: string
   disabled?: boolean
+  type?: "submit" | "button" | "reset"
 }>()
 
 // stylings or customizations
@@ -58,6 +59,7 @@ const width = {
     }"
     @click="$emit('SomeEvent')"
     :disabled="disabled"
+    :type="type"
   >
     <slot></slot>
   </button>
