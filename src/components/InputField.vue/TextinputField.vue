@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { TSizes } from '../types'
+// import { getOnlyDateNothingElse } from '@/utils/helpers'
 
 const props = defineProps<{
   placeholder?: string
@@ -12,12 +13,15 @@ const props = defineProps<{
   type?: 'text' | 'date' | 'number'
   name: string
   value: string
+  minDate?: string
+  maxDate?: string
 }>()
 
 const query = ref(props.value)
-const startdate = ref(props.value?.split('T')[0])
+const startdate = ref(props?.value)
 const duration = ref(props.value)
 
+console.log({ startdate })
 const SIZES: TSizes = {
   small: '',
   medium: 'p-2  border rounded-md',
@@ -31,7 +35,6 @@ const size = {
 }
 
 defineEmits(['typeEvent'])
-
 </script>
 
 <template>
@@ -79,9 +82,10 @@ defineEmits(['typeEvent'])
     @change="$emit('typeEvent', startdate)"
     :name="name"
     v-model="startdate"
-
     :value="startdate"
     :disabled="disabled"
+    :min="minDate"
+    :max="maxDate"
   />
   <input
     v-if="type == 'number'"
