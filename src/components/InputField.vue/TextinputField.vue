@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { TSizes } from '../types'
+// import { getOnlyDateNothingElse } from '@/utils/helpers'
 
 const props = defineProps<{
   placeholder?: string
@@ -12,10 +13,12 @@ const props = defineProps<{
   type?: 'text' | 'date' | 'number'
   name: string
   value: string
+  minDate?: string
+  maxDate?: string
 }>()
 
 const query = ref(props.value)
-const startdate = ref(props.value.split('T')[0])
+const startdate = ref(props?.value)
 const duration = ref(props.value)
 
 const SIZES: TSizes = {
@@ -30,8 +33,10 @@ const size = {
   [SIZES.small]: props.size == 'small',
 }
 
+function filterInput() {
+  duration.value = duration.value.replace(/\D/g, '') // Remove non-numeric characters
+}
 defineEmits(['typeEvent'])
-
 </script>
 
 <template>
@@ -79,13 +84,17 @@ defineEmits(['typeEvent'])
     @change="$emit('typeEvent', startdate)"
     :name="name"
     v-model="startdate"
-    
     :value="startdate"
     :disabled="disabled"
+    :min="minDate"
+    :max="maxDate"
   />
   <input
     v-if="type == 'number'"
-    type="number"
+    pattern="[0-9]*"
+    inputmode="numeric"
+    type="text"
+    id="numberInput"
     :class="{
       'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
       ...size,
@@ -94,7 +103,13 @@ defineEmits(['typeEvent'])
     :name="name"
     v-model="duration"
     :disabled="disabled"
-    @input="$emit('typeEvent', duration)"
+    @input="
+      () => {
+        filterInput()
+        $emit('typeEvent', duration)
+      }
+    "
+    @paste.prevent
   />
   <!-- </form> -->
 </template>
