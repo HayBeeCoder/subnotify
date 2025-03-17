@@ -6,7 +6,12 @@ import TextinputField from '../InputField.vue/TextinputField.vue'
 
 const emit = defineEmits(['set:DurationType', 'typeEventSetDuration', 'typeEventSetEndDate'])
 
-defineProps<{ doesUserKnowsDuration: boolean; datevalue: string; durationvalue: string }>()
+defineProps<{
+  doesUserKnowsDuration: boolean
+  datevalue: string
+  durationvalue: string
+  minDate: string
+}>()
 
 const durationOptions: Ref<SelectOption[]> = ref([
   { label: 'Days', value: 'day' },
@@ -17,7 +22,6 @@ const durationOptions: Ref<SelectOption[]> = ref([
 const selectedDurationOption: Ref<SelectOption> = ref(durationOptions.value[0])
 // alert(props.doesUserKnowsDuration.value)
 emit('set:DurationType', selectedDurationOption)
-
 </script>
 
 <template>
@@ -30,9 +34,7 @@ emit('set:DurationType', selectedDurationOption)
         size="medium"
         label="Duration"
         placeholder="20"
-        @type-event="
-          (value) => emit('typeEventSetDuration', value)
-        "
+        @type-event="(value) => emit('typeEventSetDuration', value)"
       />
     </div>
     <div class="w-[48%]">
@@ -61,6 +63,7 @@ emit('set:DurationType', selectedDurationOption)
           $emit('typeEventSetEndDate', value)
         }
       "
+      :minDate="minDate"
     />
   </div>
 </template>
