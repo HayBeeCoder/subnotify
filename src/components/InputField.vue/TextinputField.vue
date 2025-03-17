@@ -21,7 +21,6 @@ const query = ref(props.value)
 const startdate = ref(props?.value)
 const duration = ref(props.value)
 
-console.log({ startdate })
 const SIZES: TSizes = {
   small: '',
   medium: 'p-2  border rounded-md',
@@ -34,6 +33,9 @@ const size = {
   [SIZES.small]: props.size == 'small',
 }
 
+function filterInput() {
+  duration.value = duration.value.replace(/\D/g, '') // Remove non-numeric characters
+}
 defineEmits(['typeEvent'])
 </script>
 
@@ -89,7 +91,10 @@ defineEmits(['typeEvent'])
   />
   <input
     v-if="type == 'number'"
-    type="number"
+    pattern="[0-9]*"
+    inputmode="numeric"
+    type="text"
+    id="numberInput"
     :class="{
       'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
       ...size,
@@ -98,7 +103,13 @@ defineEmits(['typeEvent'])
     :name="name"
     v-model="duration"
     :disabled="disabled"
-    @input="$emit('typeEvent', duration)"
+    @input="
+      () => {
+        filterInput()
+        $emit('typeEvent', duration)
+      }
+    "
+    @paste.prevent
   />
   <!-- </form> -->
 </template>
