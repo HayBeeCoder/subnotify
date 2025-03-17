@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import DurationorEnddate from '../DurationorEnddate/DurationorEnddate.vue'
 import TextinputField from '../InputField.vue/TextinputField.vue'
 import SelectField from '../SelectField.vue/SelectField.vue'
 import TheButton from '../TheButton/TheButton.vue'
+import { convertToSeconds, getAccurateDateFormat, getEndDate } from '@/utils/helpers'
+import type { SelectOption } from '../types'
+import {
+  SUBSCRIPTION_DESCRIPTION,
+  SUBSCRIPTION_END_DATE,
+  SUBSCRIPTION_PROVIDER,
+  SUBSCRIPTION_START_DATE,
+  SUBSCRIPTION_TYPE,
+} from '@/constants'
 
 const doesUserKnowsOptions = ref([
   { label: "I know the subscription's end date", value: 'enddate' },
@@ -14,51 +23,39 @@ const doesUserKnowsOptions = ref([
 ])
 const selectUserKnowledge = ref(doesUserKnowsOptions.value[0])
 
-const doesUserKnowsDuration = ref(doesUserKnowsOptions.value[0].value == 'duration')
+const doesUserKnowsDuration = computed(() => selectUserKnowledge.value.value == 'duration')
 
-watch(selectUserKnowledge, (newValue) => {
-  doesUserKnowsDuration.value = newValue.value == 'duration'
-})
+// watch(selectUserKnowledge, (newValue) => {
+//   doesUserKnowsDuration.value = newValue.value == 'duration'
+// })
 
 const subprovider = ref('')
 const subtype = ref('')
 const subdescription = ref('')
 const subdurationtype = ref()
-const subduration = ref('1')
-const substartDate = ref(new Date().toISOString())
-const subendDate = ref(getEndDate(substartDate.value?.split('T')[0], 30))
-function getEndDate(startDate: string, daysToAdd: number) {
- 
-  const start = new Date(startDate);
-  start.setDate(start.getDate() + daysToAdd);
-  return start.toISOString()
+const subduration = ref('3')
+const substartDate = ref(getAccurateDateFormat(new Date))
+// const substartDate = ref(new Date(new Date().toLocaleDateString()).toISOString())
+console.log({ substartDate: substartDate.value })
+// const subendDate = ref(getEndDate(substartDate.value, 30))
+const subendDate = ref(getEndDate(substartDate.value, 30))
+const handleSubmit = () => {
+  const form = {
+    [SUBSCRIPTION_PROVIDER]: subprovider.value,
+    [SUBSCRIPTION_TYPE]: subtype.value,
+    [SUBSCRIPTION_START_DATE]: convertToSeconds(substartDate.value),
+    [SUBSCRIPTION_END_DATE]: convertToSeconds(subendDate.value),
+    [SUBSCRIPTION_DESCRIPTION]: subdescription.value,
+  }
+  console.log({ form })
 }
-
-// watch(subprovider, (newValue) => {
-//   console.log({ subprovide: newValue })
-// })
-// watch(subtype, (newValue) => {
-//   console.log({ subtype: newValue })
-// })
-// watch(subdescription, (newValue) => {
-//   console.log({ subdescription: newValue })
-// })
-// watch(substartDate, (newValue) => {
-//   console.log({ substartDate: newValue })
-// })
-// watch(subendDate, (newValue) => {
-//   console.log({ subendDate: newValue })
-// })
-// watch(subduration, (newValue) => {
-//   console.log({ subduration: newValue })
-// })
 </script>
 
 <template>
   <section class="my-4">
     <h2 class="text-center my-4">Track new subscription</h2>
 
-    <form class="mx-5 space-y-3">
+    <form class="mx-5 space-y-3" @submit.prevent="handleSubmit">
       <TextinputField
         name="subprovider"
         :value="subprovider"
@@ -67,7 +64,7 @@ function getEndDate(startDate: string, daysToAdd: number) {
         label="Subscription Provider"
         placeholder="Apple"
         @type-event="
-          (value) => {
+          (value: string) => {
             subprovider = value
           }
         "
@@ -80,7 +77,7 @@ function getEndDate(startDate: string, daysToAdd: number) {
         label="Subscription Type"
         placeholder="Apple TV+"
         @type-event="
-          (value) => {
+          (value: string) => {
             subtype = value
           }
         "
@@ -94,7 +91,7 @@ function getEndDate(startDate: string, daysToAdd: number) {
         placeholder="Made this subscription for Steve"
         long-message
         @type-event="
-          (value) => {
+          (value: string) => {
             subdescription = value
           }
         "
@@ -107,10 +104,12 @@ function getEndDate(startDate: string, daysToAdd: number) {
           name="subdate"
           :value="substartDate"
           @type-event="
-            (value) => {
+            (value: string) => {
+              console.log({ value })
               substartDate = value
             }
           "
+          :maxDate="getAccurateDateFormat(new Date())"
         />
       </div>
 
@@ -118,7 +117,7 @@ function getEndDate(startDate: string, daysToAdd: number) {
         :options="doesUserKnowsOptions"
         :selected-option="selectUserKnowledge"
         @select="
-          (option) => {
+          (option: SelectOption) => {
             selectUserKnowledge = option
           }
         "
@@ -132,23 +131,26 @@ function getEndDate(startDate: string, daysToAdd: number) {
         durationtype="subdurationtype"
         :does-user-knows-duration="doesUserKnowsDuration"
         @type-event-set-end-date="
-          (value) => {
+          (value: string) => {
             subendDate = value
           }
         "
-        @type-event-set-duration="value => {
-          subduration = value
-        }"
+        @type-event-set-duration="
+          (value) => {
+            subduration = value
+          }
+        "
         @set:duration-type="
           (value: string) => {
             subdurationtype = value
           }
         "
+        :minDate="getEndDate(substartDate, 3)"
       />
 
       <!-- <TextInputField /> -->
       <div class="w-full mt-6">
-        <TheButton variant="primary" size="medium" fillup-xaxis disabled>Submit</TheButton>
+        <TheButton variant="primary" size="medium" fillup-xaxis type="submit">Submit</TheButton>
       </div>
     </form>
   </section>
