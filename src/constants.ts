@@ -12,7 +12,11 @@ const NUMBER_OF_DAYS_PER_DURATION = {
   months: 30,
   year: 365
 }
-
+const DURATION_OPTIONS = [
+  { label: 'Days', value: "days" },
+  { label: 'Weeks', value: 'weeks' },
+  { label: 'Months', value: 'months' },
+]
 export {
   SUBSCRIPTION_PROVIDER,
   SUBSCRIPTION_TYPE,
@@ -20,5 +24,6 @@ export {
   SUBSCRIPTION_START_DATE,
   SUBSCRIPTION_END_DATE,
   DURATION,
-  NUMBER_OF_DAYS_PER_DURATION
+  NUMBER_OF_DAYS_PER_DURATION,
+  DURATION_OPTIONS
 }

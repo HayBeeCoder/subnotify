@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { ref, type Ref } from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
 import SelectField from '../SelectField.vue/SelectField.vue'
 import type { SelectOption } from '../types'
 import TextinputField from '../InputField.vue/TextinputField.vue'
+import { DURATION_OPTIONS } from '@/constants'
 // import { NUM } from '@/constants'
 
-const emit = defineEmits(['set:DurationType', 'typeEventSetDuration', 'typeEventSetEndDate'])
+const emit = defineEmits(['setDurationType', 'typeEventSetDuration', 'typeEventSetEndDate'])
 
 defineProps<{
   doesUserKnowsDuration: boolean
@@ -14,15 +15,14 @@ defineProps<{
   minDate: string
 }>()
 
-const durationOptions: Ref<SelectOption[]> = ref([
-  { label: 'Days', value: "days" },
-  { label: 'Weeks', value: 'weeks' },
-  { label: 'Months', value: 'months' },
-])
+const durationOptions: Ref<SelectOption[]> = ref(DURATION_OPTIONS)
 
 const selectedDurationOption: Ref<SelectOption> = ref(durationOptions.value[0])
 // alert(props.doesUserKnowsDuration.value)
-emit('set:DurationType', selectedDurationOption)
+onMounted(() => {
+
+  emit('setDurationType', selectedDurationOption.value.value)
+})
 </script>
 
 <template>
@@ -44,8 +44,9 @@ emit('set:DurationType', selectedDurationOption)
         :selected-option="selectedDurationOption"
         @select="
           (option: SelectOption) => {
+            console.log({option})
             selectedDurationOption = option
-            $emit('set:DurationType', option.value)
+            $emit('setDurationType', option.value)
           }
         "
         id="duration"
