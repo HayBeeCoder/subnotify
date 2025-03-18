@@ -17,7 +17,7 @@ const props = defineProps<{
 
 // stylings or customizations
 const COLORS: TColors = {
-  primary: 'bg-[#CC492C] text-white',
+  primary: 'bg-[#CC492C] hover:bg-[#CC492C] text-white',
   secondary: '',
   neutral: 'bg-white text-[#CC492C]',
   link: "bg-transparent hover:border-b-4 hover:border-[#CC492C] hover:bg-transparent "
@@ -50,7 +50,7 @@ const width = {
 <template>
   <button
     :class="{
-      'disabled:bg-gray-400 disabled:text-gray-700 disabled:cursor-not-allowed disabled:bg- hover:scale-[0.95] hover:bg-gray-100  underline- ease-in-out transition-all duration-150 flex justify-center gap-4 items-center': true,
+      'disabled:bg-gray-400 disabled:text-gray-700 disabled:cursor-not-allowed hover:scale-[0.95]   underline- ease-in-out transition-all duration-150 flex justify-center gap-4 items-center': true,
       ...color,
       ...width,
       ...size,
