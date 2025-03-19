@@ -1,7 +1,7 @@
-// input -> startDate and endDate( each with format: "2025-03-16") and then a value x(days apart)
+// input -> startDate and endDate( each with format: "2025-03-16" and then a value x(days apart)
 // output -> boolean
 
-export default function areatleastXdaysapart(startDate: string, x: number, endDate: string) {
+export default function areatleastXdaysapart(startDate: string, x: number, endDate: string | number) {
   const date1 = new Date(startDate).getTime()
   const date2 = new Date(endDate).getTime()
 

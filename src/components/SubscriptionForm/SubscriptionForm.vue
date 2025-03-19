@@ -4,15 +4,25 @@ import DurationorEnddate from '../DurationorEnddate/DurationorEnddate.vue'
 import TextinputField from '../InputField.vue/TextinputField.vue'
 import SelectField from '../SelectField.vue/SelectField.vue'
 import TheButton from '../TheButton/TheButton.vue'
-import { convertToSeconds, getAccurateDateFormat, getEndDate } from '@/utils/helpers'
+import {
+  calculateEndDateFromDuration,
+  convertToSeconds,
+  getAccurateDateFormat,
+  getEndDate,
+} from '@/utils/helpers'
 import type { SelectOption } from '../types'
 import {
+  NUMBER_OF_DAYS_PER_DURATION,
   SUBSCRIPTION_DESCRIPTION,
   SUBSCRIPTION_END_DATE,
   SUBSCRIPTION_PROVIDER,
   SUBSCRIPTION_START_DATE,
   SUBSCRIPTION_TYPE,
 } from '@/constants'
+import type { TNUMBER_OF_DAYS_PER_DURATION } from '@/types'
+import type { Ref } from 'vue'
+import useValidateFields from '@/composables/useValidateFields'
+import { atleastxdaysapart, required } from '@/utils/validators'
 
 const doesUserKnowsOptions = ref([
   { label: "I know the subscription's end date", value: 'enddate' },
@@ -34,28 +44,45 @@ const subtype = ref('')
 const subdescription = ref('')
 const subdurationtype = ref()
 const subduration = ref('3')
-const substartDate = ref(getAccurateDateFormat(new Date))
+const substartDate = ref(getAccurateDateFormat(new Date()))
 // const substartDate = ref(new Date(new Date().toLocaleDateString()).toISOString())
-console.log({ substartDate: substartDate.value })
+console.log({ subdurationtype: subdurationtype.value })
 // const subendDate = ref(getEndDate(substartDate.value, 30))
 const subendDate = ref(getEndDate(substartDate.value, 30))
+
+const rules = {
+  [SUBSCRIPTION_PROVIDER]: [required()],
+  [SUBSCRIPTION_TYPE]: [required()],
+  [SUBSCRIPTION_END_DATE]: [atleastxdaysapart(getAccurateDateFormat(new Date()), 3, true)],
+}
+const { errors, validateForm } = useValidateFields()
 const handleSubmit = () => {
   const form = {
     [SUBSCRIPTION_PROVIDER]: subprovider.value,
     [SUBSCRIPTION_TYPE]: subtype.value,
     [SUBSCRIPTION_START_DATE]: convertToSeconds(substartDate.value),
-    [SUBSCRIPTION_END_DATE]: convertToSeconds(subendDate.value),
+    [SUBSCRIPTION_END_DATE]: convertToSeconds(
+      doesUserKnowsDuration.value
+        ? calculateEndDateFromDuration(
+            substartDate.value,
+            Number(subduration.value) *
+              NUMBER_OF_DAYS_PER_DURATION[subdurationtype.value as TNUMBER_OF_DAYS_PER_DURATION],
+          )
+        : subendDate.value,
+    ),
     [SUBSCRIPTION_DESCRIPTION]: subdescription.value,
   }
-  console.log({ form })
+
+  validateForm(form, rules)
+  console.log({ errors, form })
 }
 </script>
 
 <template>
-  <section class="my-4">
+  <section class="my-4 w-full">
     <h2 class="text-center my-4">Track new subscription</h2>
 
-    <form class="mx-5 space-y-3" @submit.prevent="handleSubmit">
+    <form class="mx-5 space-y-3 w-[92%] mx-auto" @submit.prevent="handleSubmit">
       <TextinputField
         name="subprovider"
         :value="subprovider"
@@ -128,7 +155,7 @@ const handleSubmit = () => {
       <DurationorEnddate
         :datevalue="subendDate"
         :durationvalue="String(subduration)"
-        durationtype="subdurationtype"
+        :durationtype="subdurationtype"
         :does-user-knows-duration="doesUserKnowsDuration"
         @type-event-set-end-date="
           (value: string) => {
@@ -140,8 +167,9 @@ const handleSubmit = () => {
             subduration = value
           }
         "
-        @set:duration-type="
-          (value: string) => {
+        @set-duration-type="
+          (value: Ref) => {
+            console.log({ value })
             subdurationtype = value
           }
         "
