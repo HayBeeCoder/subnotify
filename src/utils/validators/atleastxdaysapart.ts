@@ -1,6 +1,6 @@
 import { areatleastXdaysapart } from '../helpers'
 
-// input -> startDate and endDate( each with format: "2025-03-16T00:00:00Z") 
+// input -> startDate and endDate( each with format: "2025-03-16T00:00:00Z")
 
 export default function atleastxdaysapart(
   startDateValue: string,
@@ -8,8 +8,9 @@ export default function atleastxdaysapart(
   checkingEndDateAgainstToday: boolean = false,
 ) {
   return {
-    $validator: (endDateValue: string) => {
-      return areatleastXdaysapart(startDateValue, numberOfDays, endDateValue)
+    // value here is expected to be in seconds so we multiply by 1000, to convert to ms before passing to the areatleastXdaysapart helper function
+    $validator: (value: string | number) => {
+      return areatleastXdaysapart(startDateValue, numberOfDays, (value as number) * 1000 )
     },
     $message: checkingEndDateAgainstToday
       ? `The end date must be at least ${numberOfDays} days from today.`
