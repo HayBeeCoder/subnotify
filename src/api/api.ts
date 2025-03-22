@@ -15,12 +15,19 @@ const axiosInstance: AxiosInstance = axios.create(axiosParams)
 const api = (axios: AxiosInstance): TApi => {
   // Wrapper functions around axios
   return {
-    get: withAbort(<T>(url: string, config?: AxiosRequestConfig) => axios.get<T>(url, config)),
+    get: <T>(url: string, config?: AxiosRequestConfig) =>
+      withAbort<T>(((url: string, config?: AxiosRequestConfig) => axios.get<T>(url, config)) as TGet )(url, config),
+
     post: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) =>
-      axios.post<T>(url, body, config),
+      withAbort<T>(((url: string, body?: unknown, config?: AxiosRequestConfig) =>
+        axios.post<T>(url, body, config)) as TPost)(url, body, config),
+
     patch: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) =>
-      axios.patch<T>(url, body, config),
-    delete: <T>(url: string, config?: AxiosRequestConfig) => axios.delete<T>(url, config),
+      withAbort<T>(((url: string, body?: unknown, config?: AxiosRequestConfig) =>
+        axios.patch<T>(url, body, config)) as TPatch)(url, body, config),
+
+    delete: <T>(url: string, config?: AxiosRequestConfig) =>
+      withAbort<T>(((url: string, config?: AxiosRequestConfig) => axios.delete<T>(url, config)) as TDelete)(url, config),
   }
 }
 
