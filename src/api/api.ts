@@ -1,4 +1,5 @@
-import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios'
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
+import type { TApi } from './types'
 
 // Default config for the axios instance
 const axiosParams: AxiosRequestConfig = {
@@ -12,15 +13,9 @@ const axiosParams: AxiosRequestConfig = {
 const axiosInstance: AxiosInstance = axios.create(axiosParams)
 
 // Define the interface for the API function
-interface Api {
-  get: <T>(url: string, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
-  post: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
-  patch: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
-  delete: <T>(url: string, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
-}
 
 // Main api function
-const api = (axios: AxiosInstance): Api => {
+const api = (axios: AxiosInstance): TApi => {
   // Wrapper functions around axios
   return {
     get: <T>(url: string, config?: AxiosRequestConfig) => axios.get<T>(url, config),
@@ -32,6 +27,7 @@ const api = (axios: AxiosInstance): Api => {
   }
 }
 
+// type TPossibleMethods = typeof(api(axiosInstance))
 export const didUserAbortRequest = (error: unknown) => axios.isCancel(error)
 export const getCancelSource = () => axios.CancelToken.source()
 
