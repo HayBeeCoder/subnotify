@@ -1,8 +1,9 @@
-import type { AxiosRequestConfig, AxiosResponse } from "axios"
+import type { AxiosRequestConfig, AxiosResponse, Canceler } from "axios"
 
 export type TConfig = (AxiosRequestConfig & {
   initialData: unknown,
   responseAdapter?: <T>(response: unknown) => T
+  abort?: (cancel: Canceler) => void
 })
 
 export type TGet = <T>(url: string, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
