@@ -1,66 +1,82 @@
-import { ref, computed } from 'vue'
-import { upperFirst } from 'lodash-es'
+import { ref, computed, type ComputedRef, type Ref } from 'vue'
+import upperFirst from '../helpers/upperFirst'
 import { apiStatus } from '../constants/apiStatus'
+import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import type {  TConfig, TDelete, TGet, TPatch, TPossibleRequestMethods, TPost  } from '../types'
+
 const { IDLE, SUCCESS, PENDING, ERROR } = apiStatus
 
-const createNormalisedApiStatuses = (status, apiName) => {
-  let normalisedApiStatuses = {}
+type TNormalizedApiStatuses = {
+  [key: string]: ComputedRef<boolean>
+}
+
+
+const createNormalisedApiStatuses = (status: Ref<symbol, symbol>, apiName: string) => {
+  const normalisedApiStatuses: TNormalizedApiStatuses = {}
   for (const [statusKey, statusValue] of Object.entries(apiStatus)) {
-  let propertyName = ''
-  // Create a property name for each computed status
-  if (apiName) {
-  propertyName = `${apiName}Status${upperFirst(statusKey.toLowerCase())}`
-  } else {
-  propertyName = `status${statusKey.toLowerCase()}`
-  }
-  // Create a computed that returns true/false based on
-  // the currently selected status
-  normalisedApiStatuses[propertyName] = computed(
-  () => statusValue === status.value
-  )
+    let propertyName = ''
+    // Create a property name for each computed status
+    if (apiName) {
+      propertyName = `${apiName}Status${upperFirst(statusKey.toLowerCase())}`
+    } else {
+      propertyName = `status${statusKey.toLowerCase()}`
+    }
+    // Create a computed that returns true/false based on
+    // the currently selected status
+    normalisedApiStatuses[propertyName] = computed(() => statusValue === status.value)
   }
   return normalisedApiStatuses
-  }
-  /**
-  * @param {string} apiName
-  * @param {function} fn
-  * @param {object} config
-  */
-  export const useApi = (apiName, fn, config = {}) => {
+}
+/**
+ * @param {string} apiName
+ * @param {function} fn
+ * @param {object} config
+ */
+export const useApi = <T>(apiName: string, fn: TPossibleRequestMethods, config: TConfig) => {
   const { initialData, responseAdapter } = config
   // Reactive values to store data and API status
-  const data = ref(initialData)
+  const data = ref(initialData as T)
   const status = ref(IDLE)
-  const error = ref(null)
+  const error: Ref<null | unknown> = ref(null)
   /**
-  * Initialise the api request
-  */
-  const exec = async (...args) => {
-  try {
-  // Clear current error value
-  error.value = null
-  // API request starts
-  status.value = PENDING
-  const response = await fn(...args)
-  // Before assigning the response, check if a responseAdapter
-  // was passed, if yes, then use it
-  data.value =
-  typeof responseAdapter === 'function'
-  ? responseAdapter(response)
-  : response
-// Done!
-status.value = SUCCESS
-} catch (error) {
-// Oops, there was an error
-error.value = error
-status.value = ERROR
-}
-}
-return {
-data,
-status,
-error,
-exec,
-...createNormalisedApiStatuses(status, apiName),
-}
+   * Initialise the api request
+   */
+  const exec = async (...args: Parameters<typeof fn>) => {
+    try {
+      // Clear current error value
+      error.value = null
+      // API request starts
+      status.value = PENDING
+      // const response = await fn<T>(...args)
+      let response:  AxiosResponse<T, unknown> | undefined
+      const secondargItem = args[1] as AxiosRequestConfig
+      const hasBody = args.length >= 2 && typeof args[1] !== 'object' && !('headers' in secondargItem );
+
+    if (hasBody) {
+      // POST or PATCH request: [url, body, config?]
+      const [url, body, config] = args;
+      response = await (fn as TPost | TPatch)(url, body, config);
+    } else {
+      // GET or DELETE request: [url, config?]
+      const [url, config] = args;
+      response = await (fn as TGet | TDelete)(url, config as AxiosRequestConfig);
+    }
+      // Before assigning the response, check if a responseAdapter
+      // was passed, if yes, then use it
+      data.value = typeof responseAdapter === 'function' ? responseAdapter<T>(response) : response
+      // Done!
+      status.value = SUCCESS
+    } catch (err: unknown) {
+      // Oops, there was an error
+      error.value = err
+      status.value = ERROR
+    }
+  }
+  return {
+    data,
+    status,
+    error,
+    exec,
+    ...createNormalisedApiStatuses(status, apiName),
+  }
 }
