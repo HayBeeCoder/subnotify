@@ -18,11 +18,14 @@ import {
   SUBSCRIPTION_PROVIDER,
   SUBSCRIPTION_START_DATE,
   SUBSCRIPTION_TYPE,
+  SUBSCRIPTION_USER_TIMEZONE,
 } from '@/constants'
 import type { TNUMBER_OF_DAYS_PER_DURATION } from '@/types'
 import type { Ref } from 'vue'
 import useValidateFields from '@/composables/useValidateFields'
 import { atleastxdaysapart, required } from '@/utils/validators'
+import { useApi } from '@/api/composables/useApi'
+import api from '@/api/api'
 
 const doesUserKnowsOptions = ref([
   { label: "I know the subscription's end date", value: 'enddate' },
@@ -34,6 +37,9 @@ const doesUserKnowsOptions = ref([
 const selectUserKnowledge = ref(doesUserKnowsOptions.value[0])
 
 const doesUserKnowsDuration = computed(() => selectUserKnowledge.value.value == 'duration')
+
+const {subscriptionStatusPending,exec,subscriptionStatusSuccess, subscriptionStatusError } = useApi("subscription", api.post, {initialData: {}})
+
 
 // watch(selectUserKnowledge, (newValue) => {
 //   doesUserKnowsDuration.value = newValue.value == 'duration'
@@ -71,10 +77,19 @@ const handleSubmit = () => {
         : subendDate.value,
     ),
     [SUBSCRIPTION_DESCRIPTION]: subdescription.value,
+    [SUBSCRIPTION_USER_TIMEZONE]:Intl.DateTimeFormat().resolvedOptions().timeZone
   }
 
+
+  exec("/subscription/",form,{
+    headers: {
+      Authorization: `Bearer ${}`
+    }
+  })
+
   validateForm(form, rules)
-  console.log({ errors, form })
+  // createSubscription("", form)
+  // console.log({ errors, form: {...form,time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone} })
 }
 </script>
 
@@ -178,7 +193,7 @@ const handleSubmit = () => {
 
       <!-- <TextInputField /> -->
       <div class="w-full mt-6">
-        <TheButton variant="primary" size="medium" fillup-xaxis type="submit">Submit</TheButton>
+        <TheButton variant="primary" size="medium" fillup-xaxis type="submit" :disabled="subscriptionStatusPending">Submit</TheButton>
       </div>
     </form>
   </section>
