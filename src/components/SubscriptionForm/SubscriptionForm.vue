@@ -26,13 +26,11 @@ import useValidateFields from '@/composables/useValidateFields'
 import { atleastxdaysapart, required } from '@/utils/validators'
 import { useApi } from '@/api/composables/useApi'
 import api from '@/api/api'
-import useAuthUser from '@/composables/useAuthUser'
 import { useRouter } from 'vue-router'
 import { apiStatus } from '@/api/constants/apiStatus'
 import type { AxiosError } from 'axios'
 
 const { push } = useRouter()
-const { getToken } = useAuthUser()
 
 const doesUserKnowsOptions = ref([
   { label: "I know the subscription's end date", value: 'enddate' },
@@ -92,15 +90,11 @@ const handleSubmit = async () => {
   }
 
   validateForm(form, rules)
-  if (!!Object.entries(errors).length) {
+  if (!!Object.entries(errors.value).length) {
     return
   }
   try {
-    await exec('subscription/', form, {
-      headers: {
-        Authorization: `Bearer ${await getToken()}`,
-      },
-    })
+    await exec('/', form)
 
     if (status.value == SUCCESS) {
       alert(responseFromSubmission.value?.message)
@@ -114,7 +108,7 @@ const handleSubmit = async () => {
   } catch (e: unknown) {
 
     console.log({error: e})
-    alert((e as AxiosError<{ detail: string }>).response?.data?.detail)
+    alert((e as AxiosError<{ detail: string }>).response?.data?.detail || (e as AxiosError).message)
   }
 
   // createSubscription("", form)
