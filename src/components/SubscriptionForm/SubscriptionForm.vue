@@ -18,11 +18,20 @@ import {
   SUBSCRIPTION_PROVIDER,
   SUBSCRIPTION_START_DATE,
   SUBSCRIPTION_TYPE,
+  SUBSCRIPTION_USER_TIMEZONE,
 } from '@/constants'
-import type { TNUMBER_OF_DAYS_PER_DURATION } from '@/types'
+import type { CreateSubscriptionResponse, TNUMBER_OF_DAYS_PER_DURATION } from '@/types'
 import type { Ref } from 'vue'
 import useValidateFields from '@/composables/useValidateFields'
 import { atleastxdaysapart, required } from '@/utils/validators'
+import { useApi } from '@/api/composables/useApi'
+import api from '@/api/api'
+import useAuthUser from '@/composables/useAuthUser'
+import { useRouter } from 'vue-router'
+import { apiStatus } from '@/api/constants/apiStatus'
+import type { AxiosError } from 'axios'
+
+const { getToken } = useAuthUser()
 
 const doesUserKnowsOptions = ref([
   { label: "I know the subscription's end date", value: 'enddate' },
@@ -34,6 +43,11 @@ const doesUserKnowsOptions = ref([
 const selectUserKnowledge = ref(doesUserKnowsOptions.value[0])
 
 const doesUserKnowsDuration = computed(() => selectUserKnowledge.value.value == 'duration')
+const { PENDING, SUCCESS, ERROR } = apiStatus
+const { exec, error: errorOnSubmission, status, data: responseFromSubmission } = useApi<CreateSubscriptionResponse>(api.post)
+
+const isSubmittingForm = computed(() => status.value == PENDING)
+// const isSubmittingForm = computed(() => true)
 
 // watch(selectUserKnowledge, (newValue) => {
 //   doesUserKnowsDuration.value = newValue.value == 'duration'
@@ -45,9 +59,6 @@ const subdescription = ref('')
 const subdurationtype = ref()
 const subduration = ref('3')
 const substartDate = ref(getAccurateDateFormat(new Date()))
-// const substartDate = ref(new Date(new Date().toLocaleDateString()).toISOString())
-console.log({ subdurationtype: subdurationtype.value })
-// const subendDate = ref(getEndDate(substartDate.value, 30))
 const subendDate = ref(getEndDate(substartDate.value, 30))
 
 const rules = {
@@ -56,7 +67,7 @@ const rules = {
   [SUBSCRIPTION_END_DATE]: [atleastxdaysapart(getAccurateDateFormat(new Date()), 3, true)],
 }
 const { errors, validateForm } = useValidateFields()
-const handleSubmit = () => {
+const handleSubmit = async () => {
   const form = {
     [SUBSCRIPTION_PROVIDER]: subprovider.value,
     [SUBSCRIPTION_TYPE]: subtype.value,
@@ -71,10 +82,32 @@ const handleSubmit = () => {
         : subendDate.value,
     ),
     [SUBSCRIPTION_DESCRIPTION]: subdescription.value,
+    [SUBSCRIPTION_USER_TIMEZONE]: Intl.DateTimeFormat().resolvedOptions().timeZone,
   }
 
   validateForm(form, rules)
-  console.log({ errors, form })
+  // console.log({ errors, form: {...form,time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone} })
+  if(!!Object.entries(errors).length){
+    return
+  }
+  try {
+    await exec('subscription/', form, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
+
+    if (status.value == SUCCESS) {
+      alert(responseFromSubmission.value?.message)
+    }
+    if (status.value == ERROR) throw errorOnSubmission.value
+
+  } catch (e: unknown) {
+
+    alert((e as AxiosError<{detail: string}>).response?.data?.detail)
+  }
+
+  // createSubscription("", form)
 }
 </script>
 
@@ -82,8 +115,9 @@ const handleSubmit = () => {
   <section class="my-4 w-full">
     <h2 class="text-center my-4">Track new subscription</h2>
 
-    <form class="mx-5 space-y-3 w-[92%] mx-auto" @submit.prevent="handleSubmit">
+    <form class="mx-5 space-y-3 w-[92%] mx-auto" >
       <TextinputField
+        :error="errors.provider"
         name="subprovider"
         :value="subprovider"
         type="text"
@@ -95,8 +129,10 @@ const handleSubmit = () => {
             subprovider = value
           }
         "
+        :disabled="isSubmittingForm"
       />
       <TextinputField
+        :error="errors.type"
         name="subtype"
         :value="subtype"
         type="text"
@@ -108,6 +144,7 @@ const handleSubmit = () => {
             subtype = value
           }
         "
+        :disabled="isSubmittingForm"
       />
 
       <TextinputField
@@ -122,6 +159,7 @@ const handleSubmit = () => {
             subdescription = value
           }
         "
+        :disabled="isSubmittingForm"
       />
       <div class="w-1/2">
         <TextinputField
@@ -132,11 +170,11 @@ const handleSubmit = () => {
           :value="substartDate"
           @type-event="
             (value: string) => {
-              console.log({ value })
               substartDate = value
             }
           "
           :maxDate="getAccurateDateFormat(new Date())"
+          :disabled="isSubmittingForm"
         />
       </div>
 
@@ -150,6 +188,7 @@ const handleSubmit = () => {
         "
         id="userKnowledge"
         label="Kindly choose the option you feel most confident about"
+        :disabled="isSubmittingForm"
       />
 
       <DurationorEnddate
@@ -174,11 +213,21 @@ const handleSubmit = () => {
           }
         "
         :minDate="getEndDate(substartDate, 3)"
+        :disabled="isSubmittingForm"
+        :error="errors.end_date"
       />
 
       <!-- <TextInputField /> -->
       <div class="w-full mt-6">
-        <TheButton variant="primary" size="medium" fillup-xaxis type="submit">Submit</TheButton>
+        <TheButton
+          variant="primary"
+          size="medium"
+          fillup-xaxis
+          type="button"
+          :disabled="isSubmittingForm"
+            @some-event="handleSubmit"
+          >Submit</TheButton
+        >
       </div>
     </form>
   </section>
