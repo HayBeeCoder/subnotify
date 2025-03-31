@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import TextinputField from '../InputField.vue/TextinputField.vue'
 import TheButton from '../TheButton/TheButton.vue'
 import IconPlus from '../icons/IconPlus.vue'
 import IconSearch from '../icons/IconSearch.vue'
+import { useRouter } from 'vue-router'
 
-const emit = defineEmits(['update:openModal'])
+defineEmits(['typeEvent'])
+const router = useRouter()
+
+const search_query= ref("")
 </script>
 
 <template>
   <section class="flex gap-1 my-4 w-full md:w-full">
-    <div class="flex items-stretch flex-grow relative">
+    <div class="flex items-stretch flex-grow relative ">
       <span class="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-[8px]">
         <IconSearch />
       </span>
@@ -17,7 +22,17 @@ const emit = defineEmits(['update:openModal'])
         type="text"
         size="medium"
         icon-position="left"
+        class="w-full"
         placeholder="Search for a subscription"
+        name="Search"
+        :value="search_query"
+        @type-event="
+          (value: string) => {
+
+            $emit('typeEvent', value)
+          }
+        "
+
       />
     </div>
     <div class="flex items-center justify-end">
@@ -26,7 +41,7 @@ const emit = defineEmits(['update:openModal'])
           size="medium"
           customclass=" "
           icon-exists
-          @some-event="() => emit('update:openModal')"
+          @some-event="() => {router.push('new')}"
         >
           <!-- <span class="inline-block"> -->
           <span class="inline-block h-4 w-4">
