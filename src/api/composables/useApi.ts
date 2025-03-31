@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import {  type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { apiStatus } from '../constants/apiStatus'
+import useAuthUser from '@/composables/useAuthUser'
 
 
 const {ERROR,IDLE,PENDING,SUCCESS} = apiStatus
@@ -9,6 +10,7 @@ export function useApi<T>(
   fn: (url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>,
   // config?: AxiosRequestConfig,
 ) {
+  const {getToken} = useAuthUser()
   const data = ref<T | null>(null)
   const error = ref<unknown | null>(null)
   const loading = ref(false)
@@ -16,15 +18,18 @@ export function useApi<T>(
 
   const exec = async (
     url: string,
-    body: unknown = undefined,
-    config: AxiosRequestConfig = {},
-  ) => {
+    body: unknown = undefined
+
+) => {
     // loading.value = true
     status.value = PENDING
     error.value = null
     try {
-      const hasBody = typeof body == 'object' && typeof body != undefined
-      const response = hasBody ? await fn(url, body, config) : await fn(url, config)
+      // const hasBody = typeof body == 'object' && typeof body != undefined
+      // const response = hasBody ? await fn(url, body, ) : await fn(url, config)
+      const response = await fn(url,body ,   {headers: {
+        Authorization: `Bearer ${await getToken()}`
+}})
       data.value = response.data
       status.value = SUCCESS
     } catch (err) {
@@ -45,9 +50,4 @@ export function useApi<T>(
   }
 }
 
-// export const api = {
-//   get: <T>(url: string, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.get<T>(url, config)),
-//   post: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.post<T>(url, body, config)),
-//   patch: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.patch<T>(url, body, config)),
-//   delete: <T>(url: string, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.delete<T>(url, config)),
-// }
+
