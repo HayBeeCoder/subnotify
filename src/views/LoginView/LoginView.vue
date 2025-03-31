@@ -4,6 +4,7 @@ import useAuthUser from '@/composables/useAuthUser'
 import { loginProviders } from './data'
 import { useRouter } from 'vue-router'
 import type { Provider } from '@supabase/supabase-js'
+import { onMounted } from 'vue'
 
 const router = useRouter()
 const { isLoggedIn } = useAuthUser()
@@ -26,6 +27,13 @@ const handleLogin = async (provider: Provider) => {
     console.log(error)
   }
 }
+
+onMounted(async () => {
+
+  if (await isLoggedIn()) {
+    router.push('/dashboard')
+  }
+})
 </script>
 
 <template>
