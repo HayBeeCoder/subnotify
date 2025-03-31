@@ -78,12 +78,22 @@ export default function useAuthUser() {
     return true
   }
 
+  async function getToken() {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error("Error getting session:", error);
+      return null;
+    }
+    return data.session?.access_token; // Extract the JWT token
+  }
+
   return {
     user,
     // login,
     loginWithSocialProvider,
     isLoggedIn,
     logout,
+    getToken
     // register,
     // update,
     // sendPasswordRestEmail,
