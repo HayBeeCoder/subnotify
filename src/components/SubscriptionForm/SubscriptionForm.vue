@@ -31,6 +31,7 @@ import { useRouter } from 'vue-router'
 import { apiStatus } from '@/api/constants/apiStatus'
 import type { AxiosError } from 'axios'
 
+const { push } = useRouter()
 const { getToken } = useAuthUser()
 
 const doesUserKnowsOptions = ref([
@@ -44,7 +45,12 @@ const selectUserKnowledge = ref(doesUserKnowsOptions.value[0])
 
 const doesUserKnowsDuration = computed(() => selectUserKnowledge.value.value == 'duration')
 const { PENDING, SUCCESS, ERROR } = apiStatus
-const { exec, error: errorOnSubmission, status, data: responseFromSubmission } = useApi<CreateSubscriptionResponse>(api.post)
+const {
+  exec,
+  error: errorOnSubmission,
+  status,
+  data: responseFromSubmission,
+} = useApi<CreateSubscriptionResponse>(api.post)
 
 const isSubmittingForm = computed(() => status.value == PENDING)
 // const isSubmittingForm = computed(() => true)
@@ -86,8 +92,7 @@ const handleSubmit = async () => {
   }
 
   validateForm(form, rules)
-  // console.log({ errors, form: {...form,time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone} })
-  if(!!Object.entries(errors).length){
+  if (!!Object.entries(errors).length) {
     return
   }
   try {
@@ -99,12 +104,17 @@ const handleSubmit = async () => {
 
     if (status.value == SUCCESS) {
       alert(responseFromSubmission.value?.message)
+      subduration.value = subtype.value = subdescription.value = ''
+
+      substartDate.value = getAccurateDateFormat(new Date())
+      subendDate.value = getEndDate(substartDate.value, 30)
+      push('/dashboard')
     }
     if (status.value == ERROR) throw errorOnSubmission.value
-
   } catch (e: unknown) {
 
-    alert((e as AxiosError<{detail: string}>).response?.data?.detail)
+    console.log({error: e})
+    alert((e as AxiosError<{ detail: string }>).response?.data?.detail)
   }
 
   // createSubscription("", form)
@@ -115,7 +125,7 @@ const handleSubmit = async () => {
   <section class="my-4 w-full">
     <h2 class="text-center my-4">Track new subscription</h2>
 
-    <form class="mx-5 space-y-3 w-[92%] mx-auto" >
+    <form class="mx-5 space-y-3 w-[92%] mx-auto">
       <TextinputField
         :error="errors.provider"
         name="subprovider"
@@ -208,7 +218,6 @@ const handleSubmit = async () => {
         "
         @set-duration-type="
           (value: Ref) => {
-            console.log({ value })
             subdurationtype = value
           }
         "
@@ -225,7 +234,7 @@ const handleSubmit = async () => {
           fillup-xaxis
           type="button"
           :disabled="isSubmittingForm"
-            @some-event="handleSubmit"
+          @some-event="handleSubmit"
           >Submit</TheButton
         >
       </div>
