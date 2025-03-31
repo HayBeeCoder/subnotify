@@ -1,95 +1,53 @@
-import { ref, computed, type ComputedRef, type Ref } from 'vue'
-import upperFirst from '../helpers/upperFirst'
+import { ref } from 'vue'
+import {  type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { apiStatus } from '../constants/apiStatus'
-import type { AxiosRequestConfig, AxiosResponse } from 'axios'
-import type { TConfig, TDelete, TGet, TPatch, TPossibleRequestMethods, TPost } from '../types'
 
-const { IDLE, SUCCESS, PENDING, ERROR } = apiStatus
 
-type TNormalizedApiStatuses<T extends string> = {
-  [K in T]: ComputedRef<boolean>;
-};
+const {ERROR,IDLE,PENDING,SUCCESS} = apiStatus
 
-const createNormalisedApiStatuses = <T extends Record<string, symbol>>(
-  status: Ref<symbol>,
-  apiName: string
-  // apiStatus: T
-): TNormalizedApiStatuses<`${string}Status${Capitalize<keyof T & string>}`> => {
-  const normalisedApiStatuses = {} as TNormalizedApiStatuses<
-    `${string}Status${Capitalize<keyof T & string>}`
-  >;
-
-  for (const [statusKey, statusValue] of Object.entries(apiStatus)) {
-    let propertyName = '';
-
-    // Create a property name for each computed status
-    if (apiName) {
-      propertyName = `${apiName}Status${upperFirst(statusKey.toLowerCase())}`;
-    } else {
-      propertyName = `status${statusKey.toLowerCase()}`;
-    }
-
-    // Create a computed that returns true/false based on the currently selected status
-    normalisedApiStatuses[propertyName as keyof typeof normalisedApiStatuses] = computed(
-      () => statusValue === status.value
-    );
-  }
-
-  return normalisedApiStatuses;
-};
-/**
- * @param {string} apiName
- * @param {function} fn
- * @param {object} config
- */
-export const useApi = <T>(apiName: string, fn: TPossibleRequestMethods, config?: TConfig) => {
-  const { initialData, responseAdapter } = config as TConfig
-  // Reactive values to store data and API status
-  const data = ref(initialData as T)
+export function useApi<T>(
+  fn: (url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>,
+  // config?: AxiosRequestConfig,
+) {
+  const data = ref<T | null>(null)
+  const error = ref<unknown | null>(null)
+  const loading = ref(false)
   const status = ref(IDLE)
-  const error: Ref<null | unknown> = ref(null)
-  /**
-   * Initialise the api request
-   */
-  const exec = async (...args: Parameters<typeof fn>) => {
-    try {
-      // Clear current error value
-      error.value = null
-      // API request starts
-      status.value = PENDING
-      // const response = await fn<T>(...args)
-      let response: AxiosResponse<T, unknown> | undefined
-      const secondargItem = args[1] as AxiosRequestConfig
-      const hasBody =
-        args.length >= 2 && typeof args[1] !== 'object' && !('headers' in secondargItem)
 
-      if (hasBody) {
-        // POST or PATCH request: [url, body, config?]
-        const [url, body, config] = args
-        response = await (fn as TPost | TPatch)(url, body, config)
-      } else {
-        // GET or DELETE request: [url, config?]
-        const [url, config] = args
-        response = await (fn as TGet | TDelete)(url, config as AxiosRequestConfig)
-      }
-      // Before assigning the response, check if a responseAdapter
-      // was passed, if yes, then use it
-      data.value = typeof responseAdapter === 'function' ? responseAdapter<T>(response) : response
-      // Done!
+  const exec = async (
+    url: string,
+    body: unknown = undefined,
+    config: AxiosRequestConfig = {},
+  ) => {
+    // loading.value = true
+    status.value = PENDING
+    error.value = null
+    try {
+      const hasBody = typeof body == 'object' && typeof body != undefined
+      const response = hasBody ? await fn(url, body, config) : await fn(url, config)
+      data.value = response.data
       status.value = SUCCESS
-    } catch (err: unknown) {
-      // Oops, there was an error
+    } catch (err) {
       error.value = err
       status.value = ERROR
+    } finally {
+      loading.value = false
+      // status.value = IDLE
     }
   }
 
-  const normalized = createNormalisedApiStatuses(status, apiName)
   return {
+  status,
     data,
-    status,
     error,
+    loading,
     exec,
-    ...normalized,
   }
 }
+
+// export const api = {
+//   get: <T>(url: string, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.get<T>(url, config)),
+//   post: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.post<T>(url, body, config)),
+//   patch: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.patch<T>(url, body, config)),
+//   delete: <T>(url: string, config?: AxiosRequestConfig) => useApi<T>(() => axiosInstance.delete<T>(url, config)),
+// }
