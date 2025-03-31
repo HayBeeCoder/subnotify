@@ -27,6 +27,9 @@ const router = createRouter({
     {
       path: '/new',
       name: "new-subscription",
+      meta: {
+        requiresAuth: true,
+      },
       component: () => import('@/views/SubscriptionForm/SubscriptionFormView.vue')
     }
   ],
@@ -38,7 +41,7 @@ router.beforeEach(async (to) => {
   if (to.meta.requiresAuth) {
     const { user } = useAuthUser()
 
-    if (!user) {
+    if (!user.value) {
       // Redirect to login page if not logged in and route requires authentication
       const viewwport_width = window.document.documentElement.clientWidth
 
