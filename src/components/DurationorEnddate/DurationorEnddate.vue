@@ -13,6 +13,8 @@ defineProps<{
   datevalue: string
   durationvalue: string
   minDate: string
+  disabled: boolean
+  error?: string
 }>()
 
 const durationOptions: Ref<SelectOption[]> = ref(DURATION_OPTIONS)
@@ -20,38 +22,41 @@ const durationOptions: Ref<SelectOption[]> = ref(DURATION_OPTIONS)
 const selectedDurationOption: Ref<SelectOption> = ref(durationOptions.value[0])
 // alert(props.doesUserKnowsDuration.value)
 onMounted(() => {
-
   emit('setDurationType', selectedDurationOption.value.value)
 })
 </script>
 
 <template>
-  <div class="flex gap-5 w-full items-end justify-between" v-if="doesUserKnowsDuration">
-    <div class="w-[48%]">
-      <TextinputField
-        name="duration"
-        :value="durationvalue"
-        type="number"
-        size="medium"
-        label="Duration"
-        placeholder="20"
-        @type-event="(value) => emit('typeEventSetDuration', value)"
-      />
+  <div v-if="doesUserKnowsDuration">
+    <div class="flex gap-5 w-full items-end justify-between" >
+      <div class="w-[48%]">
+        <TextinputField
+          name="duration"
+          :value="durationvalue"
+          type="number"
+          size="medium"
+          label="Duration"
+          placeholder="20"
+          @type-event="(value) => emit('typeEventSetDuration', value)"
+          :disabled="disabled"
+        />
+      </div>
+      <div class="w-[48%]">
+        <SelectField
+          :options="durationOptions"
+          :selected-option="selectedDurationOption"
+          @select="
+            (option: SelectOption) => {
+              selectedDurationOption = option
+              $emit('setDurationType', option.value)
+            }
+          "
+          id="duration"
+          :disabled="disabled"
+        />
+      </div>
     </div>
-    <div class="w-[48%]">
-      <SelectField
-        :options="durationOptions"
-        :selected-option="selectedDurationOption"
-        @select="
-          (option: SelectOption) => {
-            console.log({option})
-            selectedDurationOption = option
-            $emit('setDurationType', option.value)
-          }
-        "
-        id="duration"
-      />
-    </div>
+    <p class="text-red-400 text-xs" v-if="error">{{ error }}</p>
   </div>
   <div class="w-1/2" v-else>
     <TextinputField
@@ -66,6 +71,8 @@ onMounted(() => {
         }
       "
       :minDate="minDate"
+      :disabled="disabled"
+      :error="error"
     />
   </div>
 </template>
