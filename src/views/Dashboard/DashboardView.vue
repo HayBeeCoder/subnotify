@@ -1,28 +1,36 @@
 <script setup lang="ts">
+import DashboardCards from '@/components/DashboardCards/DashboardCards.vue'
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader.vue'
 
 import useAuthUser from '@/composables/useAuthUser'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+
 
 const { user } = useAuthUser()
-const router = useRouter()
+
+const query = ref("")
 
 // const newSubscription = ref({})
 </script>
 
 <template>
-  <section class="px-6">
+  <section class="px-6 w-screen text-wrap max-w-screen break-words">
     <DashboardHeader
-      @update:open-modal="
-        () => {
-          router.push('new')
+      :query="query"
+      @type-event="
+        (value:string) => {
+          query=value
         }
       "
     />
 
     <div v-if="user">
       <!--user_metadata is the key supabase nests all arbitrary meta data under-->
-      <div>Hello {{ user.user_metadata.name }}</div>
+      <p>Hello {{ user.user_metadata.name }}</p>
+      <p>Searching for {{ query  }}</p>
     </div>
+
+    <DashboardCards>
+    </DashboardCards>
   </section>
 </template>
