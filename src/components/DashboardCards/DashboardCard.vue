@@ -3,7 +3,6 @@ import convertTimezone from '@/utils/helpers/convertTime'
 import type { CardType } from './type'
 import IconEdit from '../icons/IconEdit.vue';
 import IconBell from '../icons/IconBell.vue';
-import IconmoreVertical from '../icons/IconmoreVertical.vue';
 
 defineProps<{
   index: number,
