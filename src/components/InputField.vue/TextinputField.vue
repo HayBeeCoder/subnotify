@@ -16,6 +16,7 @@ const props = defineProps<{
   minDate?: string
   maxDate?: string
   error?: string
+  classValue?: string
 }>()
 
 const query = ref(props.value)
@@ -41,19 +42,20 @@ defineEmits(['typeEvent'])
 </script>
 
 <template>
-  <div>
+  <div :class="classValue">
     <!-- <form class="flex justify-center my-8" v-on:submit.stop="search"> -->
     <label v-if="label" class="text-[0.8rem]" :for="name">{{ label }}</label>
     <input
       :name="name"
       v-if="type == 'text'"
       :class="{
-        'disabled:opacity-40 inline-block border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+        'disabled:opacity-40 inline-block border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full h-full': true,
         ...size,
         ...{
           'pr-8': props.iconPosition == 'right',
           'pl-8': props.iconPosition == 'left',
         },
+        class: true,
       }"
       v-model="query"
       type="text"

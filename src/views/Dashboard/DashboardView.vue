@@ -14,7 +14,13 @@ const query = ref("")
 </script>
 
 <template>
-  <section class="px-6 w-screen text-wrap max-w-screen break-words">
+  
+  <section class="px-6 w-screen text-wrap max-w-full overflow-x-hidden break-words">
+    <div v-if="user">
+      <!--user_metadata is the key supabase nests all arbitrary meta data under-->
+      <p>Hello {{ user.user_metadata.name }}</p>
+      <p>Searching for {{ query  }}</p>
+    </div>
     <DashboardHeader
       :query="query"
       @type-event="
@@ -24,11 +30,7 @@ const query = ref("")
       "
     />
 
-    <div v-if="user">
-      <!--user_metadata is the key supabase nests all arbitrary meta data under-->
-      <p>Hello {{ user.user_metadata.name }}</p>
-      <p>Searching for {{ query  }}</p>
-    </div>
+
 
     <DashboardCards>
     </DashboardCards>
