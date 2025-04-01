@@ -149,6 +149,12 @@ const pastelDarkPairs = [
 //     console.log({ 'Error in Dashboard Cards': e })
 //   }
 // })
+
+function generateRandomItem() {
+  const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex.value)
+  lastPickedIndex.value = returnValue.lastIndex
+  return returnValue.index
+}
 </script>
 
 <template>
@@ -164,9 +170,9 @@ const pastelDarkPairs = [
           v-for="(item, key) in cards"
           :key="key"
           :item="item"
-          :color="pastelDarkPairs[0]"
-
+          
           :index="Number(key)"
+          :color="generateRandomItem()"
         />
       </ul>
     </div>
@@ -174,11 +180,4 @@ const pastelDarkPairs = [
   </section>
 </template>
 
-
-// :color="
-//             (() => {
-//               const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex)
-//               lastPickedIndex = returnValue.lastIndex
-//               return returnValue.index
-//             })()
-//           "
+// :color=" // (() => { // // "
