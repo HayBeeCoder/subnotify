@@ -11,111 +11,111 @@ import getUniqueRandomItem from '@/api/helpers/getUniqueRandomItem'
 import DashboardCard from './DashboardCard.vue'
 
 const cards: Ref<CardType[]> = ref([
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Google",
-            "type": "Google TV",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Google",
-            "type": "Google TV",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1743638400,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Apple",
-            "type": "Apple TV+",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1743984000,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Apple",
-            "type": "Apple TV",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Netflix",
-            "type": "Standard",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1743638400,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "NYC",
-            "type": "NCCC",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "able",
-            "type": "able",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Netflix",
-            "type": "Netflix",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        }
-    ])
+  {
+    provider: '',
+    type: '',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: '',
+    type: '',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: '',
+    type: '',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: '',
+    type: '',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: '',
+    type: '',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'Google',
+    type: 'Google TV',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'Google',
+    type: 'Google TV',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1743638400,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'Apple',
+    type: 'Apple TV+',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1743984000,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'Apple',
+    type: 'Apple TV',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'Netflix',
+    type: 'Standard',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1743638400,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'able',
+    type: 'able',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'Netflix',
+    type: 'Netflix',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+])
 const { ERROR, SUCCESS, PENDING } = apiStatus
 const lastPickedIndex = ref(-1)
 const {
@@ -153,17 +153,26 @@ onMounted(async () => {
 
 <template>
   <section>
-    <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto" v-if="status == PENDING"
+    <!-- <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto"
+     v-if="status == PENDING"
       ><IconSpinner
-    /></span>
-    <div v-if="status == SUCCESS">
+    /></span> -->
+    <!-- <div v-if="status == SUCCESS"> -->
+    <div>
       <ul class="overflow-x-hidden">
-        <DashboardCard v-for="(item, key) in cards" :key="key" :item="item" :color="(() => {
-          const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex)
-          lastPickedIndex = returnValue.lastIndex
-          return returnValue.index
-          }
-          )()" :index="Number(key)"/>
+        <DashboardCard
+          v-for="(item, key) in cards"
+          :key="key"
+          :item="item"
+          :color="
+            (() => {
+              const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex)
+              lastPickedIndex = returnValue.lastIndex
+              return returnValue.index
+            })()
+          "
+          :index="Number(key)"
+        />
       </ul>
     </div>
     <div v-if="status == ERROR">Seems an error occured! :(</div>
