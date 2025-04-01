@@ -117,7 +117,7 @@ const cards: Ref<CardType[]> = ref([
   },
 ])
 const { ERROR, SUCCESS, PENDING } = apiStatus
-const lastPickedIndex = ref(-1)
+const lastPickedIndex = ref(0)
 const {
   exec,
   status,
@@ -164,13 +164,8 @@ const pastelDarkPairs = [
           v-for="(item, key) in cards"
           :key="key"
           :item="item"
-          :color="
-            (() => {
-              const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex)
-              lastPickedIndex = returnValue.lastIndex
-              return returnValue.index
-            })()
-          "
+          :color="pastelDarkPairs[0]"
+
           :index="Number(key)"
         />
       </ul>
@@ -178,3 +173,12 @@ const pastelDarkPairs = [
     <div v-if="status == ERROR">Seems an error occured! :(</div>
   </section>
 </template>
+
+
+// :color="
+//             (() => {
+//               const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex)
+//               lastPickedIndex = returnValue.lastIndex
+//               return returnValue.index
+//             })()
+//           "
