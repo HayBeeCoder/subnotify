@@ -13,8 +13,8 @@ const search_query= ref("")
 </script>
 
 <template>
-  <section class="flex gap-1 my-4 w-full md:w-full">
-    <div class="flex items-stretch flex-grow relative ">
+  <section class="flex gap-1 md:justify-between my-4 w-full md:w-full ">
+    <div class="flex items-stretch w-2/5 max-w-[450px] relative  ">
       <span class="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-[8px]">
         <IconSearch />
       </span>
@@ -22,10 +22,11 @@ const search_query= ref("")
         type="text"
         size="medium"
         icon-position="left"
-        class="w-full"
+        class-value="w-full h-full"
         placeholder="Search for a subscription"
         name="Search"
         :value="search_query"
+        
         @type-event="
           (value: string) => {
 
