@@ -15,7 +15,9 @@ defineProps<{
 </script>
 
 <template>
-  <li class="mb-5 bg-white p-4 rounded-[4px] border-t-[6px]  md:border-t-[8px] cursor-pointer hover:scale-105 hover:ease-linear ease-linear duration-300" :style="{ borderColor: color.pastel }">
+  <!--:style="{ borderColor: color.pastel }" -->
+  <li class="mb-5 bg-white p-4 rounded-[4px] border-t-[6px]  md:border-t-[8px] cursor-pointer hover:scale-105 hover:ease-linear ease-linear duration-300" 
+  >
     <div class="flex gap-3 items-center">
       <span class="font-medium text-sm text-[#A9A9A9] font-poppins"> #{{ index + 1 }} </span>
       <div class="border-[#F5F5F5] border-l-[1px] pl-2 flex-grow">
