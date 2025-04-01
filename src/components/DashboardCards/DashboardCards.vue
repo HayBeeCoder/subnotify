@@ -138,17 +138,17 @@ const pastelDarkPairs = [
   { pastel: '#FDE2E4', dark: '#992233' }, // Light Coral → Dark Maroon
 ]
 
-onMounted(async () => {
-  try {
-    await exec('/all')
+// onMounted(async () => {
+//   try {
+//     await exec('/all')
 
-    if (status.value == ERROR) throw error
-    if (status.value == SUCCESS)
-      cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
-  } catch (e) {
-    console.log({ 'Error in Dashboard Cards': e })
-  }
-})
+//     if (status.value == ERROR) throw error
+//     if (status.value == SUCCESS)
+//       cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
+//   } catch (e) {
+//     console.log({ 'Error in Dashboard Cards': e })
+//   }
+// })
 </script>
 
 <template>
