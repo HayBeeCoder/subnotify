@@ -151,9 +151,9 @@ const pastelDarkPairs = [
 // })
 
 function generateRandomItem() {
-  const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex.value)
-  lastPickedIndex.value = returnValue.lastIndex
-  return returnValue.index
+  return getUniqueRandomItem(pastelDarkPairs)
+  // lastPickedIndex.value = returnValue.lastIndex
+  // return returnValue.index
 }
 </script>
 
@@ -170,7 +170,7 @@ function generateRandomItem() {
           v-for="(item, key) in cards"
           :key="key"
           :item="item"
-          
+
           :index="Number(key)"
           :color="generateRandomItem()"
         />

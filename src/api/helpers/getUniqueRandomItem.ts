@@ -1,6 +1,6 @@
 
 
-export default function getUniqueRandomItem<T>(array: T[], lastPickedIndex: number) {
+export default function getUniqueRandomItem<T>(array: T[]) {
   // let index: number
 
    const index = Math.floor(Math.random() * Math.random() * array.length)
