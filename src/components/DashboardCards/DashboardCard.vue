@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mb-5 bg-white p-4 rounded-[4px] border-b-4" :style="{ borderColor: color.pastel }">
+  <div class="mb-5 bg-white p-4 rounded-[4px] border-t-4" :style="{ borderColor: color.pastel }">
     <div class="flex gap-3 items-center">
       <span class="font-medium text-sm text-[#A9A9A9] font-poppins"> #{{ index + 1 }} </span>
       <div class="border-[#F5F5F5] border-l-[1px] pl-2">
@@ -32,7 +32,7 @@ defineProps<{
     </div>
 
     <div class="my-3">
-      <div class="flex justify-between text-[12px] text-[#606060]">
+      <div class="flex justify-between text-[12px] text-[#606060] mb-[3px]">
         <p class="-ml-[3px]">
           {{
             convertTimezone(
