@@ -14,7 +14,8 @@ const search_query= ref("")
 
 <template>
   <section class="flex gap-1 md:justify-between my-4 w-full md:w-full ">
-    <div class="flex items-stretch w-2/5 max-w-[450px] relative  ">
+    <div class="flex items-stretch md:w-2/5 md:max-w-[450px] flex-grow relative  ">
+
       <span class="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-[8px]">
         <IconSearch />
       </span>
