@@ -16,14 +16,14 @@ defineProps<{
 
 <template>
   <!--:style="{ borderColor: color.pastel }" -->
-  <li class=" bg-white p-4 rounded-[4px] cursor-pointer hover:scale-105 hover:ease-linear ease-linear duration-300" 
+  <li class=" bg-white p-4 rounded-[4px] cursor-pointer hover:scale-105 hover:ease-linear ease-linear duration-300"
   >
     <div class="flex gap-3 items-center">
       <span class="font-medium text-sm text-[#A9A9A9] font-poppins"> #{{ index + 1 }} </span>
       <div class="border-[#F5F5F5] border-l-[1px] pl-2 flex-grow">
         <p>
           <span
-            class="font-bold text-sm  spacing tracking-wider leading-[100%] text-[#1A1A1A]"
+            class="font-bold text-sm  spacing tracking-wider leading-[100%] text-[#0a0a0a]"
           >
             {{ item.provider }}
           </span>
