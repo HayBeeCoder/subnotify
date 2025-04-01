@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mb-5 bg-white p-4 rounded-[4px] border-t-4" :style="{ borderColor: color.pastel }">
+  <li class="mb-5 bg-white p-4 rounded-[4px] border-t-4" :style="{ borderColor: color.pastel }">
     <div class="flex gap-3 items-center">
       <span class="font-medium text-sm text-[#A9A9A9] font-poppins"> #{{ index + 1 }} </span>
       <div class="border-[#F5F5F5] border-l-[1px] pl-2">
@@ -57,11 +57,18 @@ defineProps<{
       <span class="text-[#A9A9A9]">Notification Date:</span>
       <span class="text-[#1A1A1A] font-semibold">{{ convertTimezone(item.end_date - 3600, item.user_timezone ) }}</span>
     </p>
-  </div>
+  </li>
 </template>
 
 <style scoped>
 span {
   display: inline-block;
+}
+
+li{
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+
+
 }
 </style>
