@@ -14,9 +14,9 @@ export type TPossibleRequestMethods = TGet | TPost | TPatch | TDelete
 export type TParametersforRequestMethods = Parameters<TGet | TPost | TPatch | TDelete>
 
 export interface TApi {
-  get: <T>(url: string, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
+  get: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
   post: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
   patch: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
-  delete: <T>(url: string, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
+  delete: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>
 }
 

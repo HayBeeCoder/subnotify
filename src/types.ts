@@ -1,3 +1,4 @@
+import type { CardType } from "./components/DashboardCards/type";
 import { NUMBER_OF_DAYS_PER_DURATION } from "./constants"
 
 export type Validator = {
@@ -19,5 +20,7 @@ export type CreateSubscriptionResponse = {
   subscription_id: number;
   data: SubscriptionsResponse;
 };
+
+export type GetSubscriptionsResponse = {data: CardType[]}
 
 export type TNUMBER_OF_DAYS_PER_DURATION = keyof typeof NUMBER_OF_DAYS_PER_DURATION
