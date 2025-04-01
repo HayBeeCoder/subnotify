@@ -30,9 +30,9 @@ const handleLogin = async (provider: Provider) => {
 
 onMounted(async () => {
 
-  if (await isLoggedIn()) {
-    router.push('/dashboard')
-  }
+  // if (await isLoggedIn()) {
+  //   router.push('/dashboard')
+  // }
 })
 </script>
 
