@@ -158,14 +158,24 @@ function generateRandomItem() {
 </script>
 
 <template>
-  <section>
+  <section class="my-2" >
     <!-- <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto"
      v-if="status == PENDING"
       ><IconSpinner
     /></span> -->
+    <p v-if="!cards.length" class="italic text-center text-sm"> No subscriptions added yet!</p>
     <!-- <div v-if="status == SUCCESS"> -->
-    <div>
-      <ul class="overflow-x-hidden">
+    <div class="overflow-x-hidden max-w-full">
+      <ul  class="max-w-full grid gap-4
+              grid-cols-1
+              sm:grid-cols-2
+              md:grid-cols-3
+              lg:grid-cols-4
+              lg:grid-cols-4
+              xl:grid-cols-5
+
+              "
+              >
         <DashboardCard
           v-for="(item, key) in cards"
           :key="key"
