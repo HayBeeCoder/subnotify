@@ -66,6 +66,16 @@ const updateSortOption = (sortOption: SortOption) => {
     })
   }
 }
+
+import { onMounted } from 'vue';
+
+onMounted(() => {
+ document.body.addEventListener("click", () => {
+  if(isSortModalOpen.value){
+    isSortModalOpen.value = false
+  }
+ })
+})
 </script>
 
 <template>
@@ -75,7 +85,7 @@ const updateSortOption = (sortOption: SortOption) => {
         'inline-flex items-center gap-1 py-2 px-3 rounded-sm': true,
         'bg-white active': isSortModalOpen,
       }"
-      @click="
+      @click.stop="
         () => {
           isSortModalOpen = !isSortModalOpen
         }
