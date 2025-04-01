@@ -57,7 +57,8 @@ defineProps<{
           }}</p>
       </div>
       <div class="w-full h-[4px] bg-[#d0d0ad] rounded-full flex">
-        <div class="w-1/2 h-full rounded-full" :style="{ background: color.dark }" />
+        <div class="w-1/2 h-full rounded-full"
+         :style="{ background: '#FF5E3a' }" />
       </div>
     </div>
     <!-- <div class="flex justify-between items-center"> -->
