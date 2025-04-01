@@ -100,6 +100,78 @@ const cards: Ref<CardType[]> = ref([
     user_timezone: 'Africa/Lagos',
   },
   {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
+    provider: 'NYC',
+    type: 'NCCC',
+    description: '',
+    start_date: 1743379200,
+    end_date: 1745971200,
+    user_timezone: 'Africa/Lagos',
+  },
+  {
     provider: 'able',
     type: 'able',
     description: '',
@@ -158,14 +230,14 @@ function generateRandomItem() {
 </script>
 
 <template>
-  <section class="my-2" >
+  <section class="py-6" >
     <!-- <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto"
      v-if="status == PENDING"
       ><IconSpinner
     /></span> -->
     <p v-if="!cards.length" class="italic text-center text-sm"> No subscriptions added yet!</p>
     <!-- <div v-if="status == SUCCESS"> -->
-    <div class="overflow-x-hidden max-w-full">
+    <div class="overflow-hidden max-w-full">
       <ul  class="max-w-full grid gap-3
               grid-cols-1
               sm:grid-cols-2
