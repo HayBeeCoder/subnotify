@@ -166,7 +166,7 @@ function generateRandomItem() {
     <p v-if="!cards.length" class="italic text-center text-sm"> No subscriptions added yet!</p>
     <!-- <div v-if="status == SUCCESS"> -->
     <div class="overflow-x-hidden max-w-full">
-      <ul  class="max-w-full grid gap-4
+      <ul  class="max-w-full grid gap-3
               grid-cols-1
               sm:grid-cols-2
               md:grid-cols-3
