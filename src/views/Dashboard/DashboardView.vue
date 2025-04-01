@@ -30,7 +30,7 @@ const query = ref("")
       <p>Searching for {{ query  }}</p>
     </div>
 
-    <!-- <DashboardCards>
-    </DashboardCards> -->
+    <DashboardCards>
+    </DashboardCards>
   </section>
 </template>
