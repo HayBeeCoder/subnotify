@@ -10,6 +10,7 @@ const isSortModalOpen = ref(false)
 
 const selectedSort = ref((route.query.sort as string) || 'none')
 
+const props = defineProps<{ disabled: boolean }>()
 // Watch for route query changes and update selectedSort
 watch(
   () => route.query.sort as string,
@@ -55,6 +56,7 @@ const sortOptions: SortOption[] = [
 ]
 
 const updateSortOption = (sortOption: SortOption) => {
+  if (props.disabled) return
   if (selectedSort.value != sortOption.value) {
     router.push({
       path: '/dashboard',
@@ -66,14 +68,14 @@ const updateSortOption = (sortOption: SortOption) => {
   }
 }
 
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 
 onMounted(() => {
- document.body.addEventListener("click", () => {
-  if(isSortModalOpen.value){
-    isSortModalOpen.value = false
-  }
- })
+  document.body.addEventListener('click', () => {
+    if (isSortModalOpen.value) {
+      isSortModalOpen.value = false
+    }
+  })
 })
 </script>
 
@@ -98,7 +100,11 @@ onMounted(() => {
         class="absolute min-w-[250px] top-[120%] right-0 bg-white z-[1000] flex flex-col py-4 rounded-sm"
       >
         <li
-          class="text-[12px] py-2 cursor-pointer hover:bg-gray-100 px-5 p-3 flex justify-between items-center"
+          :class="{
+            'text-[12px] py-2  hover:bg-gray-100 px-5 p-3 flex justify-between items-center': true,
+            'cursor-pointer': !props.disabled,
+            'cursor-not-allowed': props.disabled,
+          }"
           v-for="(item, key) in sortOptions"
           :key="key"
           @click.stop="updateSortOption(item)"

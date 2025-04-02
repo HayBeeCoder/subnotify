@@ -6,6 +6,9 @@ import IconPlus from '../icons/IconPlus.vue'
 import IconSearch from '../icons/IconSearch.vue'
 import { useRoute, useRouter } from 'vue-router'
 
+defineProps<{
+  disabled: boolean
+}>()
 defineEmits(['typeEvent'])
 const router = useRouter()
 const route = useRoute()
@@ -37,6 +40,7 @@ function queryHandler() {
         <IconSearch />
       </span>
       <TextinputField
+        :disabled="disabled"
         type="text"
         size="medium"
         icon-position="left"
@@ -55,6 +59,7 @@ function queryHandler() {
     </form>
     <div class="flex items-center justify-end">
       <TheButton
+        :disabled="disabled"
         variant="primary"
         size="medium"
         customclass=" "
