@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { apiStatus } from '@/api/constants/apiStatus'
 import DashboardCards from '@/components/DashboardCards/DashboardCards.vue'
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader.vue'
 import TheSorter from '@/components/TheSorter/TheSorter.vue'
@@ -7,8 +8,11 @@ import useAuthUser from '@/composables/useAuthUser'
 import { ref } from 'vue'
 
 const { user } = useAuthUser()
+const { IDLE, PENDING } = apiStatus
 
 const query = ref('')
+
+const apiRequestStatus = ref(IDLE)
 
 // const newSubscription = ref({})
 </script>
@@ -21,6 +25,7 @@ const query = ref('')
       <p>Searching for {{ query }}</p>
     </div>
     <DashboardHeader
+      :disabled="apiRequestStatus == PENDING"
       :query="query"
       @type-event="
         (value: string) => {
@@ -29,11 +34,17 @@ const query = ref('')
       "
     />
 
+    <div class="flex justify-end">
+      <TheSorter :disabled="apiRequestStatus == PENDING" />
+    </div>
 
-<div class="flex justify-end"> 
-    <TheSorter />
- </div>
-
-    <DashboardCards> </DashboardCards>
+    <DashboardCards
+      @status-event="
+        (value: symbol) => {
+          apiRequestStatus = value
+        }
+      "
+    >
+    </DashboardCards>
   </section>
 </template>
