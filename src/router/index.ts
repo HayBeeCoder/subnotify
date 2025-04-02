@@ -37,7 +37,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   // Check if the user is logged in
-
+  return true
   if (to.meta.requiresAuth) {
     const { user } = useAuthUser()
 

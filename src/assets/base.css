@@ -6,7 +6,7 @@
 }
 
 body {
-  @apply font-roboto bg-[#F2F2F0];
+  @apply font-roboto bg-[#F2F2F0] overflow-x-hidden;
 }
 
 h1,
@@ -29,3 +29,4 @@ h1 {
 h2 {
   @apply text-xl md:text-3xl font-black;
 }
+

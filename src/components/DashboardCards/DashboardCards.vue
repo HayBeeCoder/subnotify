@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref, watch, type Ref } from 'vue'
 import type { CardType } from './type'
 import api from '@/api/api'
 import { useApi } from '@/api/composables/useApi'
@@ -9,115 +9,12 @@ import type { GetSubscriptionsResponse } from '@/types'
 
 import getUniqueRandomItem from '@/api/helpers/getUniqueRandomItem'
 import DashboardCard from './DashboardCard.vue'
+import { useRoute } from 'vue-router'
+import { SUBSCRIPTION_CARDS } from '@/constants'
 
-const cards: Ref<CardType[]> = ref([
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "",
-            "type": "",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Google",
-            "type": "Google TV",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Google",
-            "type": "Google TV",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1743638400,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Apple",
-            "type": "Apple TV+",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1743984000,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Apple",
-            "type": "Apple TV",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Netflix",
-            "type": "Standard",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1743638400,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "NYC",
-            "type": "NCCC",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "able",
-            "type": "able",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        },
-        {
-            "provider": "Netflix",
-            "type": "Netflix",
-            "description": "",
-            "start_date": 1743379200,
-            "end_date": 1745971200,
-            "user_timezone": "Africa/Lagos"
-        }
-    ])
+const route = useRoute()
+const cards: Ref<CardType[]> = ref(SUBSCRIPTION_CARDS)
 const { ERROR, SUCCESS, PENDING } = apiStatus
-const lastPickedIndex = ref(-1)
 const {
   exec,
   status,
@@ -138,34 +35,93 @@ const pastelDarkPairs = [
   { pastel: '#FDE2E4', dark: '#992233' }, // Light Coral → Dark Maroon
 ]
 
-onMounted(async () => {
-  try {
-    await exec('/all')
+const emit = defineEmits(['statusEvent'])
 
-    if (status.value == ERROR) throw error
-    if (status.value == SUCCESS)
-      cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
-  } catch (e) {
-    console.log({ 'Error in Dashboard Cards': e })
-  }
+onMounted(async () => {
+  emit('statusEvent', status.value)
+  //   try {
+  // const newValue = route.query
+  //   if (newValue?.q && newValue?.sort) {
+  //       await exec(`/all?q=${newValue?.q}&sort=${newValue.sort}`)
+  //     } else if (!newValue?.q && newValue?.sort) {
+  //       await exec(`/all?sort=${newValue?.sort}`)
+  //     } else if (!newValue?.sort&&newValue?.q) {
+  //       await exec(`/all?q=${newValue?.q}`)
+  //     }else {
+  //       await exec(`all`)
+  //     }
+
+  //     if (status.value == ERROR) throw error
+  //     if (status.value == SUCCESS)
+  //       cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
+  //   } catch (e) {
+  //     console.log({ 'Error in Dashboard Cards': e })
+  //   }
 })
+
+function generateRandomItem() {
+  return getUniqueRandomItem(pastelDarkPairs)
+  // lastPickedIndex.value = returnValue.lastIndex
+  // return returnValue.index
+}
+watch(
+  () => route.query,
+  async (newValue) => {
+    try {
+      emit('statusEvent', PENDING)
+      if (newValue?.q && newValue?.sort) {
+        await exec(`/all?q=${newValue?.q}&sort=${newValue.sort}`)
+      } else if (!newValue?.q && newValue?.sort) {
+        await exec(`/all?sort=${newValue?.sort}`)
+      } else if (!newValue?.sort && newValue?.q) {
+        await exec(`/all?q=${newValue?.q}`)
+      } else {
+        await exec(`all`)
+      }
+
+      if (status.value == ERROR) {
+        emit('statusEvent', ERROR)
+        throw error
+      }
+      if (status.value == SUCCESS) {
+        emit('statusEvent', SUCCESS)
+        cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
+      }
+      //   } catch (e) {
+      //   }
+    } catch (e) {
+      console.log({ 'Error in Dashboard Cards': e })
+    }
+  },
+  {
+    deep: true,
+  },
+)
 </script>
 
 <template>
-  <section>
-    <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto" v-if="status == PENDING"
+  <section class="py-6">
+    <!-- <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto"
+     v-if="status == PENDING"
       ><IconSpinner
-    /></span>
-    <div v-if="status == SUCCESS">
-      <ul class="overflow-x-hidden">
-        <DashboardCard v-for="(item, key) in cards" :key="key" :item="item" :color="(() => {
-          const returnValue = getUniqueRandomItem(pastelDarkPairs, lastPickedIndex)
-          lastPickedIndex = returnValue.lastIndex
-          return returnValue.index
-          }
-          )()" :index="Number(key)"/>
+    /></span> -->
+    <p v-if="!cards.length" class="italic text-center text-sm">No subscriptions added yet!</p>
+    <!-- <div v-if="status == SUCCESS"> -->
+    <div class="overflow-hidden max-w-full">
+      <ul
+        class="max-w-full grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5"
+      >
+        <DashboardCard
+          v-for="(item, key) in cards"
+          :key="key"
+          :item="item"
+          :index="Number(key)"
+          :color="generateRandomItem()"
+        />
       </ul>
     </div>
     <div v-if="status == ERROR">Seems an error occured! :(</div>
   </section>
 </template>
+
+// :color=" // (() => { // // "

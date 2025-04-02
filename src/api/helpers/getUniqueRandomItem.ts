@@ -1,11 +1,12 @@
 
 
-export default function getUniqueRandomItem<T>(array: T[], lastPickedIndex: number) {
-  let index: number
-  do {
-   index = Math.floor(Math.random() * array.length)
-  } while (index === lastPickedIndex);
+export default function getUniqueRandomItem<T>(array: T[]) {
+  // let index: number
 
-  const lastIndex = index;
-  return {index: array[index], lastIndex}
+   const index = Math.floor((Math.random()  * array.length / 2) + ( Math.random() * array.length/2))
+
+
+  // const lastIndex = index;
+  // return {index: array[index], lastIndex}
+  return array[index]
 }
