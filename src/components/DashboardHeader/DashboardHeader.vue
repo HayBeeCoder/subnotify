@@ -4,18 +4,35 @@ import TextinputField from '../InputField.vue/TextinputField.vue'
 import TheButton from '../TheButton/TheButton.vue'
 import IconPlus from '../icons/IconPlus.vue'
 import IconSearch from '../icons/IconSearch.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 defineEmits(['typeEvent'])
 const router = useRouter()
+const route = useRoute()
 
-const search_query= ref("")
+const search_query = ref((route.query.q as string) || '')
+
+function queryHandler() {
+  if (search_query.value == '' && !route.query.q) return
+  if (route.query.q != search_query.value) {
+    router.push({
+      path: '/dashboard',
+      query: {
+        ...route.query,
+        q: search_query.value == '' ? undefined : search_query.value,
+      },
+    })
+  }
+}
 </script>
 
 <template>
-  <section class="flex gap-1 md:justify-between my-4 w-full md:w-full ">
-    <div class="flex items-stretch md:w-2/5 md:max-w-[450px] flex-grow relative  ">
-
+  <section class="flex gap-1 md:justify-between my-4 w-full md:w-full">
+    <!-- <form @submit.prevent="queryHandler"> -->
+    <form
+      class="flex items-stretch md:w-2/5 md:max-w-[450px] flex-grow relative"
+      @submit.prevent="queryHandler()"
+    >
       <span class="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-[8px]">
         <IconSearch />
       </span>
@@ -27,31 +44,34 @@ const search_query= ref("")
         placeholder="Search for a subscription"
         name="Search"
         :value="search_query"
-        
         @type-event="
           (value: string) => {
-
+            search_query = value
             $emit('typeEvent', value)
           }
         "
-
       />
-    </div>
+      <!-- </div> -->
+    </form>
     <div class="flex items-center justify-end">
-        <TheButton
-          variant="primary"
-          size="medium"
-          customclass=" "
-          icon-exists
-          @some-event="() => {router.push('new')}"
-        >
-          <!-- <span class="inline-block"> -->
-          <span class="inline-block h-4 w-4">
-            <IconPlus weight="heavy" />
-          </span>
-          <span class="hidden md:inline-block"> Track new subscription </span>
-          <!-- </span> -->
-        </TheButton>
+      <TheButton
+        variant="primary"
+        size="medium"
+        customclass=" "
+        icon-exists
+        @some-event="
+          () => {
+            router.push('new')
+          }
+        "
+      >
+        <!-- <span class="inline-block"> -->
+        <span class="inline-block h-4 w-4">
+          <IconPlus weight="heavy" />
+        </span>
+        <span class="hidden md:inline-block"> Track new subscription </span>
+        <!-- </span> -->
+      </TheButton>
     </div>
   </section>
 </template>

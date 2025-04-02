@@ -30,7 +30,3 @@ h2 {
   @apply text-xl md:text-3xl font-black;
 }
 
-
-span{
-  display: inline-block
-}
