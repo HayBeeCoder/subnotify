@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import IconSort from '../icons/IconSort.vue'
-import { displayPartsToString } from 'typescript'
 import { useRoute, useRouter } from 'vue-router'
 import IconDone from '../icons/IconDone.vue'
 
