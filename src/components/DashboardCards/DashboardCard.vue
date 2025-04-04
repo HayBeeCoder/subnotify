@@ -13,8 +13,6 @@ import { convertToSeconds, getAccurateDateFormat } from '@/utils/helpers';
     dark: string
   }
 }>()
-
-
 </script>
 
 <template>
