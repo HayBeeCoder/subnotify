@@ -10,10 +10,11 @@ import type { GetSubscriptionsResponse } from '@/types'
 import getUniqueRandomItem from '@/api/helpers/getUniqueRandomItem'
 import DashboardCard from './DashboardCard.vue'
 import { useRoute } from 'vue-router'
-import { SUBSCRIPTION_CARDS } from '@/constants'
+// import { SUBSCRIPTION_CARDS } from '@/constants'
 
 const route = useRoute()
-const cards: Ref<CardType[]> = ref(SUBSCRIPTION_CARDS)
+const cards: Ref<CardType[]> = ref([])
+// const cards: Ref<CardType[]> = ref(SUBSCRIPTION_CARDS)
 const { ERROR, SUCCESS, PENDING } = apiStatus
 const {
   exec,
@@ -39,24 +40,24 @@ const emit = defineEmits(['statusEvent'])
 
 onMounted(async () => {
   emit('statusEvent', status.value)
-  //   try {
-  // const newValue = route.query
-  //   if (newValue?.q && newValue?.sort) {
-  //       await exec(`/all?q=${newValue?.q}&sort=${newValue.sort}`)
-  //     } else if (!newValue?.q && newValue?.sort) {
-  //       await exec(`/all?sort=${newValue?.sort}`)
-  //     } else if (!newValue?.sort&&newValue?.q) {
-  //       await exec(`/all?q=${newValue?.q}`)
-  //     }else {
-  //       await exec(`all`)
-  //     }
+    try {
+  const newValue = route.query
+    if (newValue?.q && newValue?.sort) {
+        await exec(`/all?q=${newValue?.q}&sort=${newValue.sort}`)
+      } else if (!newValue?.q && newValue?.sort) {
+        await exec(`/all?sort=${newValue?.sort}`)
+      } else if (!newValue?.sort&&newValue?.q) {
+        await exec(`/all?q=${newValue?.q}`)
+      }else {
+        await exec(`all`)
+      }
 
-  //     if (status.value == ERROR) throw error
-  //     if (status.value == SUCCESS)
-  //       cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
-  //   } catch (e) {
-  //     console.log({ 'Error in Dashboard Cards': e })
-  //   }
+      if (status.value == ERROR) throw error
+      if (status.value == SUCCESS)
+        cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
+    } catch (e) {
+      console.log({ 'Error in Dashboard Cards': e })
+    }
 })
 
 function generateRandomItem() {
@@ -100,14 +101,14 @@ watch(
 </script>
 
 <template>
-  <section class="py-6">
-    <!-- <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto"
+  <section class="py-6 min-h-screen">
+     <span class="block text-[#FF5E3A] text-center w-32 h-32 mx-auto"
      v-if="status == PENDING"
       ><IconSpinner
-    /></span> -->
+    /></span>
+    <div v-if="status == SUCCESS">
     <p v-if="!cards.length" class="italic text-center text-sm">No subscriptions added yet!</p>
-    <!-- <div v-if="status == SUCCESS"> -->
-    <div class="overflow-hidden max-w-full">
+    <div v-else class="overflow-hidden max-w-full">
       <ul
         class="max-w-full grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5"
       >
@@ -119,6 +120,7 @@ watch(
           :color="generateRandomItem()"
         />
       </ul>
+    </div>
     </div>
     <div v-if="status == ERROR">Seems an error occured! :(</div>
   </section>
