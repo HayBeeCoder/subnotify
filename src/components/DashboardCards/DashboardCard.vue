@@ -3,8 +3,9 @@ import convertTimezone from '@/utils/helpers/convertTime'
 import type { CardType } from './type'
 import IconEdit from '../icons/IconEdit.vue';
 import IconBell from '../icons/IconBell.vue';
+import { convertToSeconds, getAccurateDateFormat } from '@/utils/helpers';
 
-defineProps<{
+ defineProps<{
   index: number,
   item: CardType
   color: {
@@ -12,6 +13,8 @@ defineProps<{
     dark: string
   }
 }>()
+
+
 </script>
 
 <template>
@@ -57,8 +60,8 @@ defineProps<{
           }}</p>
       </div>
       <div class="w-full h-[4px] bg-[#d0d0ad] rounded-full flex">
-        <div class="w-1/2 h-full rounded-full"
-         :style="{ background: '#FF5E3a' }" />
+        <div class=" h-full rounded-full"
+         :style="{ background: '#FF5E3a', width: `${Math.floor((convertToSeconds(getAccurateDateFormat(new Date())) - item.start_date) / (item.end_date -  item.start_date))  * 100 }%`   }" />
       </div>
     </div>
     <!-- <div class="flex justify-between items-center"> -->
