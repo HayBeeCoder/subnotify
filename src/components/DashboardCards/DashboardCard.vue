@@ -8,11 +8,9 @@ import { convertToSeconds, getAccurateDateFormat } from '@/utils/helpers';
  defineProps<{
   index: number,
   item: CardType
-  color: {
-    pastel: string
-    dark: string
-  }
 }>()
+
+defineEmits(["editMe"])
 </script>
 
 <template>
@@ -34,9 +32,11 @@ import { convertToSeconds, getAccurateDateFormat } from '@/utils/helpers';
           <span class=" text-[#777777]"> {{ item.type }} </span>
         </p>
       </div>
-      <span class="w-5 h-5 text-[#A9A9A9] hover:text-[#1a1a1a] cursor-pointer">
+      <button class="w-5 h-5 text-[#A9A9A9] hover:text-[#1a1a1a] cursor-pointer"  @click="() => {
+        $emit('editMe' , item)
+        }">
       <IconEdit/>
-      </span>
+      </button>
     </div>
 
     <div class="my-3">
