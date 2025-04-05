@@ -196,6 +196,21 @@ const SUBSCRIPTION_CARDS = [
     user_timezone: 'Africa/Lagos',
   },
 ]
+
+
+const PASTEL_DARK_PAIRS = [
+  { pastel: '#FFE8D6', dark: '#CC9A66' }, // Peach Cream → Dark Peach
+  { pastel: '#FFD6E0', dark: '#B35A72' }, // Soft Pink → Dark Rose
+  { pastel: '#D6F8FF', dark: '#4D9EBE' }, // Pale Blue → Deep Teal
+  { pastel: '#D6FFD6', dark: '#4A925A' }, // Mint Green → Dark Forest Green
+  { pastel: '#FFF5BA', dark: '#B39B00' }, // Soft Yellow → Goldenrod
+  { pastel: '#F8C8DC', dark: '#8A2A4D' }, // Blush Pink → Deep Burgundy
+  { pastel: '#B5EAD7', dark: '#1B5F48' }, // Aqua Green → Dark Teal
+  { pastel: '#E5D4FF', dark: '#663399' }, // Lavender Purple → Deep Purple
+  { pastel: '#C1E1FF', dark: '#005A9C' }, // Baby Blue → Navy Blue
+  { pastel: '#FDE2E4', dark: '#992233' }, // Light Coral → Dark Maroon
+]
+
 export {
   SUBSCRIPTION_PROVIDER,
   SUBSCRIPTION_TYPE,
@@ -205,5 +220,6 @@ export {
   SUBSCRIPTION_USER_TIMEZONE,
   NUMBER_OF_DAYS_PER_DURATION,
   DURATION_OPTIONS,
-  SUBSCRIPTION_CARDS
+  SUBSCRIPTION_CARDS,
+  PASTEL_DARK_PAIRS
 }
