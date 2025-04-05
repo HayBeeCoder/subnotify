@@ -6,5 +6,6 @@ export type CardType = {
   end_date: number,
   user_timezone: string,
   duration: number
+  id?:number
 
 }
