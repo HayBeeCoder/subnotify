@@ -123,7 +123,7 @@ async function refetch() {
     :style="{ background: 'rgba(0,0,0,0.3)' }"
     @click="() => (cardToEdit = null)"
   >
-    <div class="bg-white w-[94%] m-auto py-4 rounded-sm">
+    <div class="bg-white w-[80%] m-auto p-4 rounded-sm">
       <SubscriptionForm
         :is-edit-subscription="true"
         :subscription-to-edit="cardToEdit as CardType"
@@ -141,7 +141,7 @@ async function refetch() {
       ><IconSpinner
     /></span>
     <div v-if="status == SUCCESS">
-      <p v-if="!cards.length" class="italic text-center text-sm">No subscriptions added yet!</p>
+      <p v-if="!cards.length" class="italic text-center text-sm">No subscriptions to display!</p>
       <div v-else class="overflow-hidden max-w-full">
         <ul
           class="max-w-full grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5"
