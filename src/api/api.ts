@@ -3,7 +3,7 @@ import type { TApi} from './types'
 
 // Default config for the axios instance
 const axiosParams: AxiosRequestConfig = {
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8000/subscription' : '/',
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8000/subscription' : 'https://subnotify.onrender.com/subscription',
 }
 
 // Create axios instance with default params
