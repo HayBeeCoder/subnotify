@@ -14,6 +14,7 @@ const api = (axios: AxiosInstance): TApi => {
     get: <T>(url: string, body?: unknown , config?: AxiosRequestConfig) => axios.get<T>(url, config),
     post: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => axios.post<T>(url, body, config),
     patch: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => axios.patch<T>(url, body, config),
+    put: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => axios.put<T>(url, body, config),
     delete: <T>(url: string, body?: unknown ,config?: AxiosRequestConfig) => axios.delete<T>(url, config),
   }
 }
