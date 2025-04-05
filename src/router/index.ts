@@ -27,9 +27,7 @@ const router = createRouter({
     {
       path: '/new',
       name: "new-subscription",
-      meta: {
-        requiresAuth: true,
-      },
+    
       component: () => import('@/views/SubscriptionForm/SubscriptionFormView.vue')
     }
   ],
