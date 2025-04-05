@@ -6,7 +6,8 @@
 }
 
 body {
-  @apply font-roboto bg-[#F2F2F0] overflow-x-hidden;
+  /* @apply font-roboto bg-red-500 bg-[#F2F2F0] overflow-x-hidden; */
+   @apply font-roboto bg-[#202c37] overflow-x-hidden; 
 }
 
 h1,
