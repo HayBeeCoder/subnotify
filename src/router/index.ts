@@ -37,9 +37,10 @@ router.beforeEach(async (to) => {
   // Check if the user is logged in
   
   if (to.meta.requiresAuth) {
-    const { user } = useAuthUser()
+    const { isLoggedIn } = useAuthUser()
 
-    if (!user.value) {
+    if (!(await isLoggedIn())) {
+    // if (!user.value) {
       // Redirect to login page if not logged in and route requires authentication
       const viewwport_width = window.document.documentElement.clientWidth
 
