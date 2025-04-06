@@ -33,10 +33,10 @@ function queryHandler() {
   <section class="flex gap-1 md:justify-between my-4 w-full md:w-full">
     <!-- <form @submit.prevent="queryHandler"> -->
     <form
-      class="flex items-stretch md:w-2/5 md:max-w-[450px] flex-grow relative"
+      class="flex items-stretch md:w-2/5 md:max-w-[450px] flex-grow relative "
       @submit.prevent="queryHandler()"
     >
-      <span class="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-[8px]">
+      <span class="w-4 h-4 absolute text-slate-300 peer-focus:text-[#0a0a0a] top-1/2 -translate-y-1/2 left-[8px]">
         <IconSearch />
       </span>
       <TextinputField
@@ -44,7 +44,7 @@ function queryHandler() {
         type="text"
         size="medium"
         icon-position="left"
-        class-value="w-full h-full"
+        class-value="w-full h-full peer"
         placeholder="Search for a subscription"
         name="Search"
         :value="search_query"
