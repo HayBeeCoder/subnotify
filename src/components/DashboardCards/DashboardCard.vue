@@ -15,14 +15,14 @@ defineEmits(["editMe"])
 
 <template>
   <!--:style="{ borderColor: color.pastel }" -->
-  <li class=" bg-white p-4 rounded-[4px] cursor-pointer hover:scale-105 hover:ease-linear ease-linear duration-300"
+  <li class="bg-white dark:bg-[#172028] p-4 rounded-[4px] cursor-pointer hover:scale-105 hover:ease-linear ease-linear duration-300"
   >
     <div class="flex gap-3 items-center">
       <span class="font-medium text-sm text-[#A9A9A9] font-poppins"> #{{ index + 1 }} </span>
       <div class="border-[#F5F5F5] border-l-[1px] pl-2 flex-grow">
         <p>
           <span
-            class="font-bold text-sm  spacing tracking-wider leading-[100%] text-[#0a0a0a]"
+            class="font-bold text-sm  spacing tracking-wider leading-[100%] text-[#0a0a0a] dark:text-[#eff2f6]"
           >
             {{ item.provider }}
           </span>
@@ -66,7 +66,7 @@ defineEmits(["editMe"])
     <p class="text-[13px] flex items-center ">
     <span class="w-4 h-4 text-[#a9a9a9] mr-px"><IconBell/></span>
       <span class="text-[#777777] mr-[2px] ">Notification Date:</span>
-      <span class="text-[#1A1A1A] font-semibold">{{ convertTimezone(item.end_date - 86400, item.user_timezone ) }}</span>
+      <span class="text-[#1A1A1A] dark:text-[#e7ecf1] font-semibold">{{ convertTimezone(item.end_date - 86400, item.user_timezone ) }}</span>
     </p>
 
     <!-- </div> -->
