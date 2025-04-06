@@ -27,27 +27,29 @@ const router = createRouter({
     },
     {
       path: '/new',
-      name: "new-subscription",
-    
-      component: () => import('@/views/SubscriptionForm/SubscriptionFormView.vue')
-    }
+      name: 'new-subscription',
+
+      component: () => import('@/views/SubscriptionForm/SubscriptionFormView.vue'),
+    },
   ],
 })
 
 router.beforeEach(async (to) => {
   // Check if the user is logged in
 
-  const {initializeTheme} = useThemeStore()
+  const { initializeTheme } = useThemeStore()
 
-  if(to.name != "home"){
+  if (to.name != 'home') {
     initializeTheme()
   }
-  
+
   if (to.meta.requiresAuth) {
     const { isLoggedIn } = useAuthUser()
-
-    if (!(await isLoggedIn())) {
-    // if (!user.value) {
+    const loggedIn = await isLoggedIn()
+    // console.log({loggedIn})
+    // alert({ loggedIn })
+    if (!loggedIn) {
+      // if (!user.value) {
       // Redirect to login page if not logged in and route requires authentication
       const viewwport_width = window.document.documentElement.clientWidth
 
@@ -68,10 +70,8 @@ router.afterEach((to, from) => {
   const { initializeTheme } = useThemeStore()
 
   if (from.name === 'home') {
-
     initializeTheme()
   }
 })
-
 
 export default router
