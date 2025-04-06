@@ -194,7 +194,7 @@ const handleSubmit = async () => {
       />
 
       <div class="flex flex-col md:flex-row gap-3 items-start">
-        <div class="w-[40%] md:w-2/6 shrink-0">
+        <div class="w-[50%] md:w-2/6 shrink-0">
           <TextinputField
             type="date"
             size="medium"
