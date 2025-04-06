@@ -17,9 +17,9 @@ const props = defineProps<{
 
 // stylings or customizations
 const COLORS: TColors = {
-  primary: 'bg-[#CC492C] hover:bg-[#CC492C] text-white',
+  primary: 'bg-[#CC492C] hover:bg-[#CC492C] text-white dark:text-[#172028]',
   secondary: '',
-  neutral: 'bg-white text-[#CC492C]',
+  neutral: 'bg-white dark:bg-[#172028] text-[#CC492C]',
   link: "bg-transparent hover:border-b-4 hover:border-[#CC492C] hover:bg-transparent "
 }
 
