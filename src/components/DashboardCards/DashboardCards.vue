@@ -119,11 +119,10 @@ async function refetch() {
 <template>
   <section
     v-if="cardToEdit"
-    class="fixed top-0 left-0 w-screen h-screen z-[100000] flex flex-col justify-center items-center"
-    :style="{ background: 'rgba(0,0,0,0.3)' }"
+    class="fixed top-0 left-0 w-screen h-screen z-[100000] flex flex-col pt-5 items-center bg-[rgba(0,0,0,0.3)] dark:bg-[rgba(0,0,0,0.5)]"
     @click="() => (cardToEdit = null)"
   >
-    <div class="bg-white dark:bg-[#172028] w-[90%] m-auto p-4 rounded-sm">
+    <div class="bg-white dark:bg-[#172028] w-[90%] mx-auto p-4 rounded-sm">
       <SubscriptionForm
         :is-edit-subscription="true"
         :subscription-to-edit="cardToEdit as CardType"
