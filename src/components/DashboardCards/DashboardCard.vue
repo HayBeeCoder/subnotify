@@ -3,20 +3,14 @@ import convertTimezone from '@/utils/helpers/convertTime'
 import type { CardType } from './type'
 import IconEdit from '../icons/IconEdit.vue'
 import IconBell from '../icons/IconBell.vue'
-import { convertToSeconds, getAccurateDateFormat } from '@/utils/helpers'
+import getPercentageOfSubscriptionDuration from '@/api/helpers/getPercentageOfSubscriptionDuration';
 
-const props = defineProps<{
+defineProps<{
   index: number
   item: CardType
 }>()
 
-const today = convertToSeconds(getAccurateDateFormat(new Date()))
-const start_date = props.item.start_date
-const end_date = props.item.end_date
 
-const num = today - start_date
-const den = end_date - start_date
-const fraction = num /den
 
 defineEmits(['editMe'])
 </script>
@@ -28,7 +22,7 @@ defineEmits(['editMe'])
   >
     <div class="flex gap-3 items-center">
       <span class="font-medium text-sm text-[#A9A9A9] font-poppins"> #{{ index + 1 }} </span>
-      <div class="border-[#F5F5F5] border-l-[1px] pl-2 flex-grow">
+      <div class="border-[#F5F5F5] dark:border-[#a9a9a9] border-l-[1px] pl-2 flex-grow">
         <p>
           <span
             class="font-bold text-sm spacing tracking-wider leading-[100%] text-[#0a0a0a] dark:text-[#eff2f6]"
@@ -42,7 +36,7 @@ defineEmits(['editMe'])
         </p>
       </div>
       <button
-        class="w-5 h-5 text-[#A9A9A9] hover:text-[#1a1a1a] cursor-pointer"
+        class="w-5 h-5 text-[#A9A9A9] hover:text-[#1a1a1a] dark:hover:text-[#fafafa] cursor-pointer"
         @click="
           () => {
             $emit('editMe', item)
@@ -67,7 +61,7 @@ defineEmits(['editMe'])
           class="h-full rounded-full"
           :style="{
             background: '#FF5E3a',
-            width: `${fraction * 100}%`,
+            width: `${getPercentageOfSubscriptionDuration(item.start_date, item.end_date) * 100}%`,
           }"
         />
       </div>
