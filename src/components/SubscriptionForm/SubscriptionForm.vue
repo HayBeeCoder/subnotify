@@ -69,7 +69,7 @@ const subprovider = ref(props.subscriptionToEdit?.provider || '')
 const subtype = ref(props.subscriptionToEdit?.type || '')
 const subdescription = ref(props.subscriptionToEdit?.description || '')
 const subdurationtype = ref()
-const subduration = ref(String(props.subscriptionToEdit?.duration) || '3')
+const subduration = ref(props.subscriptionToEdit?.duration || '3')
 const substartDate = ref(
   props.subscriptionToEdit
     ? getAccurateDateFormat(new Date(props.subscriptionToEdit.start_date * 1000))
@@ -246,6 +246,7 @@ const handleSubmit = async () => {
         :minDate="getEndDate(substartDate, 3)"
         :disabled="isSubmittingForm"
         :error="errors.end_date"
+
       />
 
       <!-- <TextInputField /> -->
