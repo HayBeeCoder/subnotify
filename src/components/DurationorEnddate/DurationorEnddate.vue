@@ -15,6 +15,7 @@ defineProps<{
   minDate: string
   disabled: boolean
   error?: string
+  isEditSubscription?: boolean
 }>()
 
 const durationOptions: Ref<SelectOption[]> = ref(DURATION_OPTIONS)
@@ -53,6 +54,7 @@ onMounted(() => {
           "
           id="duration"
           :disabled="disabled"
+            :should-be-above="isEditSubscription"
         />
       </div>
     </div>
@@ -64,6 +66,7 @@ onMounted(() => {
       type="date"
       size="medium"
       label="Subscription End Date"
+
       :value="datevalue"
       @type-event="
         (value) => {

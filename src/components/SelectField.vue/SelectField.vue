@@ -62,7 +62,8 @@ const selectOption = (option: { label: string; value: string }) => {
       v-if="isOpen"
       :id="'dropdown-' + id"
       :class="{'absolute overflow-hidden  z-10 mt-2 w-full rounded-lg border border-gray-300 bg-white dark:bg-[#172028] shadow-lg': true,
-            'bottom-full': shouldBeAbove
+            'bottom-full': shouldBeAbove,
+            'top-full': !shouldBeAbove
       }"
       role="menu"
     >

@@ -222,11 +222,11 @@ const handleSubmit = async () => {
           id="userKnowledge"
           label="Choose an option you are sure of"
           :disabled="isSubmittingForm"
-
           className="w-1/2 grow-0"
         />
       </div>
       <DurationorEnddate
+        :is-edit-subscription="isEditSubscription"
         :datevalue="subendDate"
         :durationvalue="String(subduration)"
         :durationtype="subdurationtype"
