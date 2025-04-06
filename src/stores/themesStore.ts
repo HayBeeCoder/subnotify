@@ -19,7 +19,8 @@ export const useThemeStore = defineStore('theme', () => {
     write(newTheme)
   }
   function initializeTheme() {
-    document.documentElement.classList.add(theme.value === 'dark' ? 'dark' : 'light')
+
+    document.documentElement.classList.toggle('dark' , theme.value =='dark')
   }
 
   return {
