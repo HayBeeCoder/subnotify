@@ -123,7 +123,7 @@ async function refetch() {
     :style="{ background: 'rgba(0,0,0,0.3)' }"
     @click="() => (cardToEdit = null)"
   >
-    <div class="bg-white w-[80%] m-auto p-4 rounded-sm">
+    <div class="bg-white dark:bg-[#172028] w-[80%] m-auto p-4 rounded-sm">
       <SubscriptionForm
         :is-edit-subscription="true"
         :subscription-to-edit="cardToEdit as CardType"
