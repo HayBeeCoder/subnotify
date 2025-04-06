@@ -58,7 +58,7 @@ onMounted(() => {
     </div>
     <p class="text-red-400 text-xs" v-if="error">{{ error }}</p>
   </div>
-  <div class="w-2/6" v-else>
+  <div class="w-[40%] md:w-2/6" v-else>
     <TextinputField
       name="subenddate"
       type="date"
