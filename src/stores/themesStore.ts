@@ -18,8 +18,14 @@ export const useThemeStore = defineStore('theme', () => {
     document.documentElement.classList.toggle('dark', newTheme === 'dark')
     write(newTheme)
   }
+  
+  function setThemeWithoutLocalStorage(newTheme: 'light' | "dark"){
+    theme.value = newTheme
+    document.documentElement.classList.toggle('dark', newTheme === 'dark')
+  }
   function initializeTheme() {
-
+    const themeStoredLocally = read()
+    theme.value = themeStoredLocally
     document.documentElement.classList.toggle('dark' , theme.value =='dark')
   }
 
@@ -27,6 +33,7 @@ export const useThemeStore = defineStore('theme', () => {
     toggleTheme,
     setTheme,
     initializeTheme,
-    theme
+    theme,
+    setThemeWithoutLocalStorage
   }
 })

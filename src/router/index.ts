@@ -37,10 +37,12 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   // Check if the user is logged in
 
-  const { initializeTheme } = useThemeStore()
+  const { initializeTheme, setThemeWithoutLocalStorage } = useThemeStore()
 
   if (to.name != 'home') {
     initializeTheme()
+  } else {
+    setThemeWithoutLocalStorage('light')
   }
 
   if (to.meta.requiresAuth) {
