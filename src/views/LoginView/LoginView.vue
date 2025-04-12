@@ -30,9 +30,11 @@ const handleLogin = async (provider: Provider) => {
 </script>
 
 <template>
+
   <section
     class="h-screen w-full md:w-[50vw] m-auto flex flex-col justify-center items-center gap-5"
   >
+  <p class="text-white bg-red-400 p-2 text-sm text-center">This project is still in progress and interactions with it are just for testing sake! You are free to test what's available for now 🙃</p>
     <h2>Create an account</h2>
     <div class="w-4/5 max-w-md space-y-5">
       <TheButton
