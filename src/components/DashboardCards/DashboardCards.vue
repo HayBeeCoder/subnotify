@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {onMounted, ref, watch, type Ref } from 'vue'
+import { onMounted, ref, watch, type Ref } from 'vue'
 import type { CardType } from './type'
 import api from '@/api/api'
 import { useApi } from '@/api/composables/useApi'
@@ -9,11 +9,19 @@ import type { GetSubscriptionsResponse } from '@/types'
 import DashboardCard from './DashboardCard.vue'
 import { useRoute } from 'vue-router'
 import SubscriptionForm from '../SubscriptionForm/SubscriptionForm.vue'
+import ProgressBar from '../ProgressBar/ProgressBar.vue'
+import TextinputField from '../InputField.vue/TextinputField.vue'
+import convertTimezone from '@/utils/helpers/convertTime'
+import TheButton from '../TheButton/TheButton.vue'
+import { DELETE_THIS_PROJECT } from '@/constants'
 // import { SUBSCRIPTION_CARDS } from '@/constants'
 
 const route = useRoute()
 const cards: Ref<CardType[]> = ref([])
 const cardToEdit: Ref<CardType | null> = ref(null)
+const cardDeets: Ref<CardType | null> = ref(null)
+const showFullDescription = ref(false)
+const deleteProjectStatement = ref('')
 // const cards: Ref<CardType[]> = ref(SUBSCRIPTION_CARDS)
 const { ERROR, SUCCESS, PENDING } = apiStatus
 const {
@@ -122,7 +130,7 @@ async function refetch() {
     class="fixed top-0 left-0 w-screen h-screen z-[100000] flex flex-col pt-5 items-center bg-[rgba(0,0,0,0.3)] dark:bg-[rgba(0,0,0,0.5)]"
     @click="() => (cardToEdit = null)"
   >
-    <div class="bg-white dark:bg-[#172028] w-[90%] mx-auto p-4 rounded-sm">
+    <div class="bg-white dark:bg-[#172028] w-[90%] max-w-[520px] mx-auto p-4 rounded-sm">
       <SubscriptionForm
         :is-edit-subscription="true"
         :subscription-to-edit="cardToEdit as CardType"
@@ -133,6 +141,88 @@ async function refetch() {
           }
         "
       />
+    </div>
+  </section>
+  <section
+    v-if="cardDeets"
+    class="fixed top-0 left-0 w-screen h-screen z-[100000] flex flex-col pt-5 items-center bg-[rgba(0,0,0,0.3)] dark:bg-[rgba(0,0,0,0.5)]"
+    @click="
+      () => {
+        cardDeets = null
+        showFullDescription = false
+      }
+    "
+  >
+    <div
+      class="bg-white dark:bg-[#172028] w-[90%] max-w-[520px] m-auto px-5 py-8 rounded-sm space-y-4"
+      @click.stop=""
+    >
+      <div>
+        <h2 class="text-center mb-1">{{ cardDeets.provider }}</h2>
+        <p class="text-xs text-center">{{ cardDeets.type }}</p>
+      </div>
+
+      <div class="text-xs">
+        <p class="text-[#A9A9A9]">Subscription Description</p>
+        <p
+          :class="{
+            'text-justify overflow-hidden overflow-ellipsis': true,
+            desc: !showFullDescription,
+          }"
+          @click="
+            () => {
+              showFullDescription = !showFullDescription
+            }
+          "
+        >
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam nihil repellat iure
+          eveniet beatae aliquid voluptatem! Quidem ipsa reiciendis laborum, omnis obcaecati
+          quibusdam quis hic sint? Quo rerum rem ea. Lorem, ipsum dolor sit amet consectetur
+          adipisicing elit. Nostrum repudiandae debitis nulla, fugiat porro repellendus culpa ut
+          impedit ex hic et, consequatur inventore sit dolor accusantium quod repellat. Modi nulla
+          explicabo fugiat nemo, possimus libero vel sequi delectus omnis ipsum quas, officia
+          dolores vero commodi! Ab debitis distinctio voluptatem laudantium mollitia omnis incidunt
+          consequuntur, deserunt, laborum ratione explicabo quos sunt?
+        </p>
+      </div>
+
+      <div class="flex gap-3 justify-between text-xs">
+        <div>
+          <p class="text-[#A9A9A9]">Start Date</p>
+          <p>{{ convertTimezone(cardDeets.start_date, cardDeets.user_timezone) }}</p>
+        </div>
+        <div>
+          <p class="text-[#A9A9A9]">Duration</p>
+          <p>{{ cardDeets.duration + ' days' }}</p>
+        </div>
+
+        <div>
+          <p class="text-[#A9A9A9]">End Date</p>
+          <p>{{ convertTimezone(cardDeets.end_date, cardDeets.user_timezone) }}</p>
+        </div>
+      </div>
+
+      <div><ProgressBar :start_date="cardDeets.start_date" :end_date="cardDeets.end_date" /></div>
+      <div>
+        <TextinputField
+          name="delete_project"
+          error=""
+          :value="deleteProjectStatement"
+          type="text"
+          size="medium"
+          placeholder="Apple"
+          @type-event="
+            (value: string) => {
+              deleteProjectStatement = value
+            }
+          "
+        >
+          <p class="text-[0.7rem]">Type <b>`{{ DELETE_THIS_PROJECT }}`</b> in the text box below</p>
+        </TextinputField>
+        <div class="w-full flex flex-grow py-1">
+        <TheButton variant="danger" size="small" class="w-full" :disabled="DELETE_THIS_PROJECT != deleteProjectStatement"> Delete Card </TheButton>
+        </div>
+      </div>
     </div>
   </section>
   <section class="py-6 min-h-screen">
@@ -150,9 +240,13 @@ async function refetch() {
             :key="key"
             :item="item"
             :index="Number(key)"
+            @show-my-deets="
+              (value: CardType) => {
+                cardDeets = value
+              }
+            "
             @edit-me="
               (value: CardType) => {
-                console.log({ value })
                 cardToEdit = value
               }
             "
@@ -164,4 +258,11 @@ async function refetch() {
   </section>
 </template>
 
-// :color=" // (() => { // // "
+<style scoped>
+.desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>
