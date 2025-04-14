@@ -211,6 +211,8 @@ const PASTEL_DARK_PAIRS = [
   { pastel: '#FDE2E4', dark: '#992233' }, // Light Coral → Dark Maroon
 ]
 
+
+const DELETE_THIS_PROJECT = "Stop Tracking This Subscription"
 export {
   SUBSCRIPTION_PROVIDER,
   SUBSCRIPTION_TYPE,
@@ -221,5 +223,6 @@ export {
   NUMBER_OF_DAYS_PER_DURATION,
   DURATION_OPTIONS,
   SUBSCRIPTION_CARDS,
-  PASTEL_DARK_PAIRS
+  PASTEL_DARK_PAIRS,
+  DELETE_THIS_PROJECT
 }
