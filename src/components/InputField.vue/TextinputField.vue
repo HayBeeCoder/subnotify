@@ -45,6 +45,7 @@ defineEmits(['typeEvent'])
   <div :class="classValue">
     <!-- <form class="flex justify-center my-8" v-on:submit.stop="search"> -->
     <label v-if="label" class="text-[0.8rem]" :for="name">{{ label }}</label>
+    <slot></slot>
     <input
       :name="name"
       v-if="type == 'text'"
