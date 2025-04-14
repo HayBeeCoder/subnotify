@@ -141,7 +141,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <section class="my-4 w-full max-w-[500px] mx-auto" @click="(e) => e.stopPropagation()">
+  <section class="my-4 w-full max-w-[500px] mx-auto " @click="(e) => e.stopPropagation()">
     <h2 v-if="!isEditSubscription" class="text-center my-4">Track new subscription</h2>
     <h2 v-else class="text-center my-4">Update subscription</h2>
 
