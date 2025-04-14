@@ -12,13 +12,18 @@ defineProps<{
 
 
 
-defineEmits(['editMe'])
+defineEmits(['editMe', 'showMyDeets'])
 </script>
 
 <template>
   <!--:style="{ borderColor: color.pastel }" -->
   <li
     class="bg-white dark:bg-[#172028] p-4 rounded-[4px] cursor-pointer hover:scale-105 hover:ease-linear ease-linear duration-300"
+    @click.stop="
+    () => {
+            $emit('showMyDeets', item)
+          }
+    "
   >
     <div class="flex gap-3 items-center">
       <span class="font-medium text-sm text-[#A9A9A9] font-poppins"> #{{ index + 1 }} </span>
@@ -37,7 +42,7 @@ defineEmits(['editMe'])
       </div>
       <button
         class="w-5 h-5 text-[#A9A9A9] hover:text-[#1a1a1a] dark:hover:text-[#fafafa] cursor-pointer"
-        @click="
+        @click.stop="
           () => {
             $emit('editMe', item)
           }
