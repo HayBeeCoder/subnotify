@@ -4,7 +4,7 @@ import type { TColors } from './types'
 import type { TSizes } from '../types';
 
 const props = defineProps<{
-  variant: 'primary' | 'secondary' | 'neutral' | "link"
+  variant: 'primary' | 'secondary' | 'neutral' | "link" |"danger"
   size: 'small' | 'medium' | 'large'
   fillupXaxis?: boolean
   iconExists?: boolean
@@ -17,9 +17,10 @@ const props = defineProps<{
 
 // stylings or customizations
 const COLORS: TColors = {
-  primary: 'bg-[#CC492C] hover:bg-[#CC492C] text-white',
+  primary: 'bg-[#CC492C] hover:bg-[#CC492C] text-white dark:text-[#172028]',
   secondary: '',
-  neutral: 'bg-white text-[#CC492C]',
+  neutral: 'bg-white dark:bg-[#172028] text-[#CC492C]',
+  danger: 'text-white bg-red-600',
   link: "bg-transparent hover:border-b-4 hover:border-[#CC492C] hover:bg-transparent "
 }
 
@@ -28,10 +29,11 @@ const color = ref({
   [COLORS.primary]: props.variant == 'primary',
   [COLORS.secondary]: props.variant == 'secondary',
   [COLORS.link]: props.variant == 'link',
+  [COLORS.danger]: props.variant == "danger"
 })
 
 const SIZES: TSizes = {
-  small: 'text-sm p-1 rounded-xs',
+  small: 'text-sm p-2 rounded-xs',
   medium: props.iconExists ? 'font-bold text-md px-3 md:px-8 py-3 rounded-sm' : "font-bold text-md px-4 md:px-8 py-4 rounded-sm",
   large: 'font-bold text-lg px-6 md:px-10 py-4 rounded-sm  ',
 }

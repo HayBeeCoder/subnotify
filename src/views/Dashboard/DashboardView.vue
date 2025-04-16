@@ -22,7 +22,7 @@ const apiRequestStatus = ref(IDLE)
     <div v-if="user">
       <!--user_metadata is the key supabase nests all arbitrary meta data under-->
       <p>Hello {{ user.user_metadata.name }}</p>
-      <p>Searching for {{ query }}</p>
+    
     </div>
     <DashboardHeader
       :disabled="apiRequestStatus == PENDING"

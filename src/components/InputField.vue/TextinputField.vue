@@ -45,11 +45,12 @@ defineEmits(['typeEvent'])
   <div :class="classValue">
     <!-- <form class="flex justify-center my-8" v-on:submit.stop="search"> -->
     <label v-if="label" class="text-[0.8rem]" :for="name">{{ label }}</label>
+    <slot></slot>
     <input
       :name="name"
       v-if="type == 'text'"
       :class="{
-        'disabled:opacity-40 inline-block border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full h-full': true,
+        'disabled:opacity-40 inline-block border-slate-300 text-slate-800  focus:outline-none w-full h-full dark:text-[#eff2f6] focus:border-slate-500  dark:placeholder:text-gray-600 dark:border-gray-600 dark:focus:border-[#eff2f6]  sm:text-sm': true,
         ...size,
         ...{
           'pr-8': props.iconPosition == 'right',
@@ -67,7 +68,7 @@ defineEmits(['typeEvent'])
     <textarea
       v-if="longMessage"
       :class="{
-        'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+        'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full dark:text-[#eff2f6] focus:border-slate-500  dark:placeholder:text-gray-600 dark:border-gray-600 dark:focus:border-[#eff2f6]  sm:text-sm': true,
         ...size,
       }"
       :name="name"
@@ -82,7 +83,7 @@ defineEmits(['typeEvent'])
       v-if="type == 'date'"
       type="date"
       :class="{
-        'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+        'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full dark:text-[#eff2f6] focus:border-slate-500  dark:placeholder:text-gray-600 dark:border-gray-600 dark:focus:border-[#eff2f6]  sm:text-sm': true,
         ...size,
       }"
       @change="$emit('typeEvent', startdate)"
@@ -100,7 +101,7 @@ defineEmits(['typeEvent'])
       type="text"
       id="numberInput"
       :class="{
-        'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full': true,
+        'disabled:opacity-40 border-slate-300 text-slate-800 focus:outline-none focus:border-slate-500 w-full dark:text-[#eff2f6] focus:border-slate-500  dark:placeholder:text-gray-600 dark:border-gray-600 dark:focus:border-[#eff2f6]  sm:text-sm': true,
         ...size,
       }"
       min="1"

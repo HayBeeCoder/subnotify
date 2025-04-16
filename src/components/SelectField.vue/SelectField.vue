@@ -8,6 +8,8 @@ defineProps<{
   id: string
   label?: string
   disabled: boolean
+  shouldBeAbove?: boolean
+  className?: string
 }>()
 
 const emit = defineEmits(['select'])
@@ -24,14 +26,14 @@ const selectOption = (option: { label: string; value: string }) => {
 }
 </script>
 <template>
-  <div class="relative w-full max-w-sm">
+  <div :class="`relative w-full max-w-sm ${className}`">
     <label v-if="label" class="text-[0.8rem]" >{{ label }}</label>
 
     <!-- Trigger Button -->
     <button
       type="button"
       @click.prevent="toggleDropdown"
-      class="relative disabled:opacity-40 block w-full rounded-lg border border-gray-300 bg-white pl-3 py-2 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:text-sm"
+      class="relative disabled:opacity-40 block w-full rounded-lg border-[1px] outline-none border-slate-300   pl-3 py-2 text-left shadow-sm focus:border-slate-500 dark:focus:border-[#eff2f6] focus:outline-none sm:text-sm"
       :aria-expanded="isOpen"
       :aria-controls="'dropdown-' + id"
       :disabled
@@ -59,16 +61,19 @@ const selectOption = (option: { label: string; value: string }) => {
     <div
       v-if="isOpen"
       :id="'dropdown-' + id"
-      class="absolute z-10 mt-2 w-full rounded-lg border border-gray-300 bg-white shadow-lg"
+      :class="{'absolute overflow-hidden  z-10 mt-2 w-full rounded-lg border border-gray-300 bg-white dark:bg-[#172028] shadow-lg': true,
+            'bottom-full': shouldBeAbove,
+            'top-full': !shouldBeAbove
+      }"
       role="menu"
     >
-      <ul>
+      <ul class="overflow-hidden">
         <li
           v-for="option in options"
           :key="option.value"
           @click.prevent="selectOption(option)"
-          class="cursor-pointer px-4 py-2 hover:bg-indigo-500 hover:text-white sm:text-sm"
-          :class="{ 'bg-gray-100': option.value === selectedOption.value }"
+          class="cursor-pointer px-4 py-2 hover:bg-indigo-500 hover:text-white sm:text-sm overflow-hidden"
+          :class="{ 'bg-gray-100 dark:bg-[#202c37]': option.value === selectedOption.value }"
           role="menuitem"
         >
           {{ option.label }}

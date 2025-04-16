@@ -3,4 +3,5 @@ export type TColors = {
   secondary: string
   neutral: string
   link: string
+  danger: string
 }

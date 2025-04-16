@@ -66,9 +66,13 @@ export default function useAuthUser() {
     }
     if (is_access_token_expired) {
       const refresh_token_response = await refreshToken(data.session as Session)
-      if (refresh_token_response.session || refresh_token_response.user) {
-        user.value = refresh_token_response.user
+      if (!refresh_token_response.session || !refresh_token_response.user ) {
+        console.error('Refresh failed:', )
+        await supabase.auth.signOut()
+        user.value = null
+        return false
       }
+      user.value = refresh_token_response.user
     } else {
       if (!user.value) {
         user.value = await getUser()
@@ -79,12 +83,14 @@ export default function useAuthUser() {
   }
 
   async function getToken() {
-    const { data, error } = await supabase.auth.getSession();
+    const { data, error } = await supabase.auth.getSession()
     if (error) {
-      console.error("Error getting session:", error);
-      return null;
+      console.error('Error getting session:', error)
+      return null
     }
-    return data.session?.access_token; // Extract the JWT token
+
+    console.log({ token: data.session?.access_token })
+    return data.session?.access_token // Extract the JWT token
   }
 
   return {
@@ -93,7 +99,7 @@ export default function useAuthUser() {
     loginWithSocialProvider,
     isLoggedIn,
     logout,
-    getToken
+    getToken,
     // register,
     // update,
     // sendPasswordRestEmail,

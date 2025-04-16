@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 @theme {
   --font-poppins: 'Poppins', sans-serif;
   --font-roboto: 'Roboto' sans-serif;
 }
 
 body {
-  @apply font-roboto bg-[#F2F2F0] overflow-x-hidden;
+   @apply font-roboto bg-[#F2F2F0] dark:bg-[#202c37] dark:text-[#eff2f6] overflow-x-hidden; 
 }
 
 h1,
@@ -30,3 +31,8 @@ h2 {
   @apply text-xl md:text-3xl font-black;
 }
 
+
+/* input[type="date"]::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<your-svg-code>');
+  color: red;
+} */

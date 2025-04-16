@@ -83,8 +83,8 @@ onMounted(() => {
   <section class="relative">
     <button
       :class="{
-        'inline-flex items-center gap-1 py-2 px-3 rounded-sm': true,
-        'bg-white active': isSortModalOpen,
+        'inline-flex items-center gap-1 py-2 px-3 rounded-sm active:bg-white': true,
+        'bg-white dark:dark:bg-[#172028] active': isSortModalOpen,
       }"
       @click.stop="
         () => {
@@ -97,11 +97,11 @@ onMounted(() => {
     </button>
     <div v-if="isSortModalOpen" class="bg-white">
       <ul
-        class="absolute min-w-[250px] top-[120%] right-0 bg-white z-[1000] flex flex-col py-4 rounded-sm"
+        class="absolute min-w-[250px] top-[120%] right-0 bg-white z-[1000] flex flex-col py-4 rounded-sm dark:bg-[#172028]"
       >
         <li
           :class="{
-            'text-[12px] py-2  hover:bg-gray-100 px-5 p-3 flex justify-between items-center': true,
+            'text-[12px] py-2  hover:bg-gray-100 dark:hover:bg-[#202c37] px-5 p-3 flex justify-between items-center': true,
             'cursor-pointer': !props.disabled,
             'cursor-not-allowed': props.disabled,
           }"

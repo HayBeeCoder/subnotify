@@ -15,6 +15,7 @@ defineProps<{
   minDate: string
   disabled: boolean
   error?: string
+  isEditSubscription?: boolean
 }>()
 
 const durationOptions: Ref<SelectOption[]> = ref(DURATION_OPTIONS)
@@ -53,17 +54,19 @@ onMounted(() => {
           "
           id="duration"
           :disabled="disabled"
+            :should-be-above="isEditSubscription"
         />
       </div>
     </div>
     <p class="text-red-400 text-xs" v-if="error">{{ error }}</p>
   </div>
-  <div class="w-1/2" v-else>
+  <div class="w-[50%] md:w-2/6" v-else>
     <TextinputField
       name="subenddate"
       type="date"
       size="medium"
       label="Subscription End Date"
+
       :value="datevalue"
       @type-event="
         (value) => {

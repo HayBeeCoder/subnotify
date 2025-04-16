@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import useAuthUser from '@/composables/useAuthUser'
+import { useThemeStore } from '@/stores/themesStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,22 +27,31 @@ const router = createRouter({
     },
     {
       path: '/new',
-      name: "new-subscription",
-      meta: {
-        requiresAuth: true,
-      },
-      component: () => import('@/views/SubscriptionForm/SubscriptionFormView.vue')
-    }
+      name: 'new-subscription',
+
+      component: () => import('@/views/SubscriptionForm/SubscriptionFormView.vue'),
+    },
   ],
 })
 
 router.beforeEach(async (to) => {
   // Check if the user is logged in
-  return true
-  if (to.meta.requiresAuth) {
-    const { user } = useAuthUser()
 
-    if (!user.value) {
+  const { initializeTheme, setThemeWithoutLocalStorage } = useThemeStore()
+
+  if (to.name != 'home') {
+    initializeTheme()
+  } else {
+    setThemeWithoutLocalStorage('light')
+  }
+
+  if (to.meta.requiresAuth) {
+    const { isLoggedIn } = useAuthUser()
+    const loggedIn = await isLoggedIn()
+    // console.log({loggedIn})
+    // alert({ loggedIn })
+    if (!loggedIn) {
+      // if (!user.value) {
       // Redirect to login page if not logged in and route requires authentication
       const viewwport_width = window.document.documentElement.clientWidth
 
@@ -55,6 +65,14 @@ router.beforeEach(async (to) => {
     // if (to.name == 'auth' || to.name == 'home') return { name: 'dashboard' }
     // Allow navigation to the intended route
     return true // Continue to the target route
+  }
+})
+
+router.afterEach((to, from) => {
+  const { initializeTheme } = useThemeStore()
+
+  if (from.name === 'home') {
+    initializeTheme()
   }
 })
 
