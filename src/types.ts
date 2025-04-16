@@ -23,4 +23,6 @@ export type CreateSubscriptionResponse = {
 
 export type GetSubscriptionsResponse = {data: CardType[]}
 
+export type DeleteSubscriptionsResponse =  {message: string}
+
 export type TNUMBER_OF_DAYS_PER_DURATION = keyof typeof NUMBER_OF_DAYS_PER_DURATION
