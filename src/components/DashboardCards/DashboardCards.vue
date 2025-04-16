@@ -5,7 +5,7 @@ import api from '@/api/api'
 import { useApi } from '@/api/composables/useApi'
 import { apiStatus } from '@/api/constants/apiStatus'
 import IconSpinner from '../icons/IconSpinner.vue'
-import type { GetSubscriptionsResponse } from '@/types'
+import type { DeleteSubscriptionsResponse, GetSubscriptionsResponse } from '@/types'
 import DashboardCard from './DashboardCard.vue'
 import { useRoute } from 'vue-router'
 import SubscriptionForm from '../SubscriptionForm/SubscriptionForm.vue'
@@ -14,6 +14,8 @@ import TextinputField from '../InputField.vue/TextinputField.vue'
 import convertTimezone from '@/utils/helpers/convertTime'
 import TheButton from '../TheButton/TheButton.vue'
 import { DELETE_THIS_PROJECT } from '@/constants'
+import IconDelete from '../icons/IconDelete.vue'
+import type { AxiosError } from 'axios'
 // import { SUBSCRIPTION_CARDS } from '@/constants'
 
 const route = useRoute()
@@ -22,6 +24,7 @@ const cardToEdit: Ref<CardType | null> = ref(null)
 const cardDeets: Ref<CardType | null> = ref(null)
 const showFullDescription = ref(false)
 const deleteProjectStatement = ref('')
+const showDeleteFormInput = ref(false)
 // const cards: Ref<CardType[]> = ref(SUBSCRIPTION_CARDS)
 const { ERROR, SUCCESS, PENDING } = apiStatus
 const {
@@ -31,9 +34,17 @@ const {
   error,
 } = useApi<GetSubscriptionsResponse>(api.get)
 
+const {
+  exec: deleteCard,
+  status: statusOnDeletion,
+  data: deleteSubscriptionResponse,
+  error: errorOnDeletion,
+} = useApi<DeleteSubscriptionsResponse>(api.delete)
+
 const emit = defineEmits(['statusEvent'])
 
-onMounted(async () => {
+
+async function fetchCards(){
   emit('statusEvent', status.value)
   try {
     const newValue = route.query
@@ -53,7 +64,8 @@ onMounted(async () => {
   } catch (e) {
     console.log({ 'Error in Dashboard Cards': e })
   }
-})
+}
+onMounted(fetchCards)
 
 watch(
   () => route.query,
@@ -92,7 +104,6 @@ watch(
 watch(
   () => cardToEdit.value,
   (newValue) => {
-    console.log({ cardToEdit: cardToEdit.value })
     if (newValue) {
       document.body.style.overflow = 'hidden'
     } else {
@@ -116,10 +127,28 @@ async function refetch() {
     }
 
     if (status.value == ERROR) throw error
-    if (status.value == SUCCESS)
+    if (status.value == SUCCESS){}
       cards.value = (responseFromGettingAllSubscriptions.value as GetSubscriptionsResponse).data
   } catch (e) {
     console.log({ 'Error in Dashboard Cards': e })
+  }
+}
+
+async function handleDelete() {
+  try {
+    if (cardDeets.value) {
+      await deleteCard(`/${cardDeets.value?.id}`)
+
+      if (statusOnDeletion.value == ERROR) throw errorOnDeletion
+      if (statusOnDeletion.value == SUCCESS) {
+        alert((deleteSubscriptionResponse.value as DeleteSubscriptionsResponse).message)
+        ;(document.getElementById('cardDeetsWrapper') as HTMLElement).click();
+        await fetchCards()
+      }
+    }
+  } catch (e: unknown) {
+    console.log({ error: e })
+    alert((e as AxiosError<{ detail: string }>).response?.data?.detail || (e as AxiosError).message)
   }
 }
 </script>
@@ -144,12 +173,15 @@ async function refetch() {
     </div>
   </section>
   <section
+    id="cardDeetsWrapper"
     v-if="cardDeets"
     class="fixed top-0 left-0 w-screen h-screen z-[100000] flex flex-col pt-5 items-center bg-[rgba(0,0,0,0.3)] dark:bg-[rgba(0,0,0,0.5)]"
     @click="
       () => {
         cardDeets = null
         showFullDescription = false
+        showDeleteFormInput = false
+        deleteProjectStatement = ''
       }
     "
   >
@@ -203,25 +235,49 @@ async function refetch() {
       </div>
 
       <div><ProgressBar :start_date="cardDeets.start_date" :end_date="cardDeets.end_date" /></div>
-      <div>
-        <TextinputField
-          name="delete_project"
-          error=""
-          :value="deleteProjectStatement"
-          type="text"
-          size="medium"
-          placeholder="Apple"
-          @type-event="
-            (value: string) => {
-              deleteProjectStatement = value
-            }
-          "
-        >
-          <p class="text-[0.7rem]">Type <b>`{{ DELETE_THIS_PROJECT }}`</b> in the text box below</p>
-        </TextinputField>
-        <div class="w-full flex flex-grow py-1">
-        <TheButton variant="danger" size="small" class="w-full" :disabled="DELETE_THIS_PROJECT != deleteProjectStatement"> Delete Card </TheButton>
+
+      <div class="mt-12">
+        <div v-if="showDeleteFormInput">
+          <TextinputField
+            name="delete_project"
+            error=""
+            :value="deleteProjectStatement"
+            type="text"
+            size="medium"
+            :placeholder="DELETE_THIS_PROJECT"
+            @type-event="
+              (value: string) => {
+                deleteProjectStatement = value
+              }
+            "
+          >
+            <p class="text-[0.7rem]">
+              Type <b>`{{ DELETE_THIS_PROJECT }}`</b> in the text box below
+            </p>
+          </TextinputField>
+          <div class="w-full flex flex-grow py-1">
+            <TheButton
+              variant="danger"
+              size="small"
+              class="w-full"
+              :disabled="DELETE_THIS_PROJECT != deleteProjectStatement || statusOnDeletion == PENDING"
+              @click="handleDelete"
+            >
+              <p v-if="statusOnDeletion != PENDING">Delete Card</p>
+              <span v-else class="block text-white text-center w-6 h-6 mx-auto"
+                ><IconSpinner
+              /></span>
+            </TheButton>
+          </div>
         </div>
+
+        <button
+          v-else
+          class="inline-block text-red-600 h-6 w-6"
+          @click="() => (showDeleteFormInput = true)"
+        >
+          <IconDelete />
+        </button>
       </div>
     </div>
   </section>
