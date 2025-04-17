@@ -215,14 +215,9 @@ async function handleDelete() {
             }
           "
         >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam nihil repellat iure
-          eveniet beatae aliquid voluptatem! Quidem ipsa reiciendis laborum, omnis obcaecati
-          quibusdam quis hic sint? Quo rerum rem ea. Lorem, ipsum dolor sit amet consectetur
-          adipisicing elit. Nostrum repudiandae debitis nulla, fugiat porro repellendus culpa ut
-          impedit ex hic et, consequatur inventore sit dolor accusantium quod repellat. Modi nulla
-          explicabo fugiat nemo, possimus libero vel sequi delectus omnis ipsum quas, officia
-          dolores vero commodi! Ab debitis distinctio voluptatem laudantium mollitia omnis incidunt
-          consequuntur, deserunt, laborum ratione explicabo quos sunt?
+         {{
+          cardDeets.description
+          }}
         </p>
       </div>
 
