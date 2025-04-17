@@ -68,12 +68,12 @@ router.beforeEach(async (to) => {
   }
 })
 
-router.afterEach((to, from) => {
-  const { initializeTheme } = useThemeStore()
+// router.afterEach((to, from) => {
+//   const { initializeTheme } = useThemeStore()
 
-  if (from.name === 'home') {
-    initializeTheme()
-  }
-})
+//   if (from.name === 'home') {
+//     initializeTheme()
+//   }
+// })
 
 export default router

@@ -16,6 +16,7 @@ import TheButton from '../TheButton/TheButton.vue'
 import { DELETE_THIS_PROJECT } from '@/constants'
 import IconDelete from '../icons/IconDelete.vue'
 import type { AxiosError } from 'axios'
+import { useThemeStore } from '@/stores/themesStore'
 // import { SUBSCRIPTION_CARDS } from '@/constants'
 
 const route = useRoute()
@@ -25,6 +26,8 @@ const cardDeets: Ref<CardType | null> = ref(null)
 const showFullDescription = ref(false)
 const deleteProjectStatement = ref('')
 const showDeleteFormInput = ref(false)
+
+const {initializeTheme} = useThemeStore()
 // const cards: Ref<CardType[]> = ref(SUBSCRIPTION_CARDS)
 const { ERROR, SUCCESS, PENDING } = apiStatus
 const {
@@ -65,7 +68,12 @@ async function fetchCards(){
     console.log({ 'Error in Dashboard Cards': e })
   }
 }
-onMounted(fetchCards)
+onMounted(async () => {
+
+  initializeTheme()
+  await fetchCards()
+
+})
 
 watch(
   () => route.query,
